@@ -1,1 +1,1 @@
-PyroCMS-shop is pyrocms module for adding a simple shop to your site. Just paste shop directory in addons->modules and install.
+PyroCMS-shop is pyrocms module for adding a simple shop to your site. Just paste shop directory in addons->modules and shop_categories in addons->widgets and install.
