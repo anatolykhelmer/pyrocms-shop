@@ -1,0 +1,11 @@
+div.option_values {
+    float: right;
+    width: 500px;
+}
+
+#item_photos {
+    float: right;
+    width: 200px;
+    height: 300px;
+    margin-left: 10px;
+}

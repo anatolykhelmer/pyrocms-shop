@@ -49,6 +49,7 @@ class Admin extends Admin_Controller {
         parent::__construct();
         $this->load->model('shop_cat_m');
         $this->load->model('shop_items_m');
+        $this->load->model('cart_m');
         $this->load->library('form_validation');
         $this->load->helper('html');
         $this->lang->load('shop');
@@ -69,6 +70,7 @@ class Admin extends Admin_Controller {
     public function index()
     {
         $all_cat = $this->shop_cat_m->get_all();
+
         $this->template
                 ->title($this->module_details['name'])
                 ->set('all_cat', $all_cat)
@@ -79,16 +81,38 @@ class Admin extends Admin_Controller {
 
     public function create_item()
     {
+        // Javascript for dynamic textboxes
+        $html_to_paste = '<li><label for=value>' .$this->lang->line("shop.item_option_value_label").
+                         ' #" + counter + "</label><input class=text type=text name=value" + counter + "></li>';
+
+        $shop_js = '<script type="text/javascript">
+            jQuery(function(){
+                var counter = 2;
+                jQuery("#add_value").click(function(){
+                    counter++;
+                    jQuery(".add_value").before("' .$html_to_paste. '");
+                    return false;
+                });
+             });
+                </script>';
+
         $this->load->model('galleries/galleries_m');
+
+        // All galleries names to array
         $galleries = $this->galleries_m->get_all();
-        $gal=array();
+        $gal = array();
         foreach ($galleries as $gallery) {
             $gal[$gallery->id] = $gallery->title;
         }
+        
         $this->form_validation->set_rules($this->item_validation_rules);
 
         if($this->form_validation->run()) {
-            $this->shop_items_m->create($this->input->post());
+            if ($this->shop_items_m->create($this->input->post())) {
+                $this->session->set_flashdata('success', sprintf( lang('shop.item_add_success'), $this->input->post('title')) );
+                redirect('admin/shop/list_items');
+            }
+            // if not
         }
 
         // Loop through each validation rule
@@ -99,10 +123,13 @@ class Admin extends Admin_Controller {
 
         // Render the view
         $this->data->post =& $post;
-        $this->template->title($this->module_details['name'], lang('shop.item_create_title'))
-                                        ->append_metadata($this->load->view('fragments/wysiwyg', $this->data, TRUE))
-                                        ->set('galleries', $gal)
-                                        ->build('admin/create_item', $this->data);
+        $this->template
+                        ->title($this->module_details['name'], lang('shop.item_create_title'))
+                        ->append_metadata($this->load->view('fragments/wysiwyg', $this->data, TRUE))
+                        ->append_metadata(css('shop-style.css', 'shop'))
+                        ->append_metadata($shop_js)
+                        ->set('galleries', $gal)
+                        ->build('admin/create_item', $this->data);
     }
 
 
@@ -113,8 +140,11 @@ class Admin extends Admin_Controller {
     {
         $all_items = $this->shop_items_m->get_all();
         $data['all_items'] = $all_items;
-        $this->template->title($this->module_details['name'], lang('shop.item_list_title'))
-                                        ->build('admin/list_items', $data);
+        $this->template
+                        ->title($this->module_details['name'], lang('shop.item_list_title'))
+                        ->set('categories', $this->data->categories)
+                        ->set_partial('filters', 'admin/partials/filters')
+                        ->build('admin/list_items', $data);
     }
 
 
@@ -194,8 +224,10 @@ class Admin extends Admin_Controller {
         if ($this->form_validation->run()) {
             $post = $this->input->post();
             if ($this->shop_cat_m->create($post['title'])) {
+                $this->session->set_flashdata('success', sprintf( lang('shop.cat_add_success'), $this->input->post('title')) );
                 redirect('admin/shop');
             }
+            $this->session->set_flashdata(array('error'=> lang('cat_add_error')));
         }
 
         // Loop through each validation rule
@@ -210,40 +242,42 @@ class Admin extends Admin_Controller {
                                         ->build('admin/create_category', $this->data);
     }
 
+
+
+
     public function delete_category($id=0)
     {
-		$id_array = (!empty($id)) ? array($id) : $this->input->post('action_to');
+        $id_array = (!empty($id)) ? array($id) : $this->input->post('action_to');
 
-		// Delete multiple
-		if(!empty($id_array))
-		{
-			$deleted = 0;
-			$to_delete = 0;
-			foreach ($id_array as $id)
-			{
-				if($this->shop_cat_m->delete($id))
-				{
-					$deleted++;
-				}
-				else
-				{
-					$this->session->set_flashdata('error', sprintf($this->lang->line('shop.cat_mass_delete_error'), $id));
-				}
-				$to_delete++;
-			}
+        // Delete multiple
+        if (!empty($id_array)) {
+            
+                $deleted = 0;
+                $to_delete = 0;
+                
+                foreach ($id_array as $id) {
+                        if($this->shop_cat_m->delete($id)) {
+                                $deleted++;
+                        }
+                        else {
+                                $this->session->set_flashdata('error', sprintf($this->lang->line('shop.cat_mass_delete_error'), $id));
+                        }
+                        $to_delete++;
+                }
 
-			if( $deleted > 0 )
-			{
-				$this->session->set_flashdata('success', sprintf($this->lang->line('shop.cat_mass_delete_success'), $deleted, $to_delete));
-			}
-		}
-		else
-		{
-			$this->session->set_flashdata('error', $this->lang->line('shop.cat_no_select_error'));
-		}
+                if( $deleted > 0 ) {
+                        $this->session->set_flashdata('success', sprintf($this->lang->line('shop.cat_mass_delete_success'), $deleted, $to_delete));
+                }
+        }
+        else {
+                $this->session->set_flashdata('error', $this->lang->line('shop.cat_no_select_error'));
+        }
 
-		redirect('admin/shop/index');
+        redirect('admin/shop/index');
     }
+
+
+
 
     public function edit_category($id=0)
     {
@@ -278,6 +312,43 @@ class Admin extends Admin_Controller {
 		$this->template->title($this->module_details['name'], sprintf(lang('shop.cat_edit_title'), $category->name))
 						->build('admin/edit_category', $this->data);
     }
+
+
+
+
+    public function list_orders()
+    {
+        $orders = $this->cart_m->get_all();
+        $this->data->orders = $orders;
+        // Render the view
+        $this->template
+                        ->title($this->module_details['name'])
+                        ->set('categories', $this->data->categories)
+                        ->set_partial('filters', 'admin/partials/filterorders')
+                        ->build('admin/list_orders', $this->data);
+    }
+
+
+
+
+    public function view_order($id=0)
+    {   
+        $cart = $this->cart_m->get($id);
+        $items = $this->cart_m->get_items($id);
+        $customer_id = $cart->customer;
+
+        $this->data->cart = $cart;
+        $this->data->items = $items;
+
+        // Render the view
+        $this->template
+                        ->title($this->module_details['name'])
+                        ->build('admin/view_order', $this->data);
+    }
+
+
+
+
 
     /**
      * Callback method that checks the title of the category

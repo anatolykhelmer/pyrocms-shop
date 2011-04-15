@@ -5,7 +5,7 @@
 
 class Module_Shop extends Module {
 
-    public $version = "0.2";
+    public $version = "0.4";
 
     public function info()
     {
@@ -34,6 +34,7 @@ class Module_Shop extends Module {
                     UNIQUE KEY `name` (`name`)
                     ) engine = InnoDB DEFAULT CHARSET utf8;";
         $sql = $this->db->query($query);
+        if ($sql == false) return false;
 
         $query = "create table if not exists `shop_items` (
                     `id` int auto_increment,
@@ -42,7 +43,7 @@ class Module_Shop extends Module {
                     `gallery` int,
                     `description` varchar(255),
                     `price` double not null,
-                    `options` int,
+                    `options` bool DEFAULT 0,
                     `active` bool not null,
                     PRIMARY KEY (`id`),
                     FOREIGN KEY (`category`) REFERENCES shop_categories(`id`)
@@ -50,14 +51,66 @@ class Module_Shop extends Module {
                     FOREIGN KEY (`gallery`) REFERENCES galleries(`id`)
                         ON DELETE CASCADE
                     ) engine = InnoDB DEFAULT CHARSET utf8;";
-        $this->db->query($query);
+        $sql = $this->db->query($query);
+        if ($sql == false) return false;
+
+        $query = "create table if not exists `shop_item_options` (
+                    `id` int auto_increment,
+                    `item_id` int not null,
+                    `name` varchar(20) not null,
+                    PRIMARY KEY (`id`),
+                    FOREIGN KEY (`item_id`) REFERENCES shop_items(`id`)
+                        ON DELETE CASCADE
+                    ) ENGINE = InnoDB DEFAULT CHARSET utf8;";
+        $sql = $this->db->query($query);
+        if ($sql == false) return false;
+
+        $query = "create table if not exists `shop_item_option_values` (
+                    `id` int auto_increment,
+                    `option_id` int not null,
+                    `value` varchar(20) not null,
+                    PRIMARY KEY (`id`),
+                    FOREIGN KEY (`option_id`) REFERENCES shop_item_options(`id`)
+                        ON DELETE CASCADE
+                    ) ENGINE = InnoDB DEFAULT CHARSET utf8;";
+        $sql = $this->db->query($query);
+        if ($sql == false) return false;
+
+        $query = "create table if not exists `cart` (
+                    `id` int auto_increment,
+                    `customer` smallint unsigned not null,
+                    `date` timestamp,
+                    PRIMARY KEY (`id`),
+                    FOREIGN KEY (`customer`) REFERENCES users(`id`)
+                        ON DELETE CASCADE
+                    ) ENGINE = InnoDB CHARSET utf8;";
+        $sql = $this->db->query($query);
+        if ($sql == false) return false;
+
+        $query = "create table if not exists `cart_items` (
+                    `id` int auto_increment,
+                    `name` varchar(50) not null,
+                    `price` double not null,
+                    `qty` smallint unsigned not null,
+                    `cart` int not null,
+                    PRIMARY KEY (`id`),
+                    FOREIGN KEY (`cart`) REFERENCES cart(`id`)
+                        ON DELETE CASCADE
+                    ) ENGINE = InnoDB CHARSET utf8;";
+        $sql = $this->db->query($query);
+        if ($sql == false) return false;
         
         return TRUE;
     }
 
     public function uninstall()
     {
-        $query = "drop table if exists shop_items, shop_categories;";
+        $query = "drop table if exists  shop_item_option_values,
+                                        shop_item_options,
+                                        shop_items,
+                                        shop_categories,
+                                        cart_items,
+                                        cart;";
         $sql = $this->db->query($query);
         return $sql;
     }

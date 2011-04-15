@@ -7,7 +7,7 @@
                 <tr>
                     <th width="20"><?php echo form_checkbox(array('name' => 'action_to_all', 'class' => 'check-all')); ?></th>
                     <th><?php echo lang('shop.item_title_label'); ?></th>
-                    <th width="200" class="align-center"><?php echo lang('shop.item_actions_label'); ?></th>
+                    <th width="200" class="align-center"><?php echo lang('shop.cat_actions_label'); ?></th>
                 </tr>
             </thead>
             <tfoot>
