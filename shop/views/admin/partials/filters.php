@@ -1,6 +1,6 @@
 <div class="filter">
 <?php echo form_open(); ?>
-        <?php echo form_hidden('f_module', $module_details['slug']); ?>
+        <?php echo form_hidden('f_module', 'shop/list_items'); ?>
         <ul>
                 <li>
                     <?php echo lang('shop.item_status_label', 'f_status'); ?>

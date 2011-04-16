@@ -38,7 +38,7 @@ class Module_Shop extends Module {
 
         $query = "create table if not exists `shop_items` (
                     `id` int auto_increment,
-                    `name` varchar(20) not null,
+                    `name` varchar(255) not null,
                     `category` int not null,
                     `gallery` int,
                     `description` varchar(255),

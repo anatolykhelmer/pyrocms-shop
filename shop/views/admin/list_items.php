@@ -36,6 +36,8 @@
     
     <?php echo form_close(); ?>
 
+    <?php echo $pagination['links']; ?>
+
 <?php else: ?>
     <div class="blank-slate">
         <h2><?php echo lang('shop.item_no_items'); ?></h2>
