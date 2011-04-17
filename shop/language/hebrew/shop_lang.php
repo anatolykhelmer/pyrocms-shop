@@ -44,6 +44,7 @@ $lang['shop.item_option_value_add_label'] = 'הוסף שדה';
 $lang['shop.item_view_gallery_title']   = 'הצג את כל הגלריה';
 
 $lang['shop.cart_add_to_cart']          = 'הוסף לסל';
+$lang['shop.search_label']              = 'חפש';
 
 $lang['shop.invoice_title']             = 'הזמנה';
 $lang['shop.checkout_label']            = 'Check out';

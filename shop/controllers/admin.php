@@ -14,7 +14,7 @@ class Admin extends Admin_Controller {
         array(
             'field' => 'title',
             'label' =>'lang:shop.item_title_label',
-            'rules' => 'trim|required|max_length[20]|callback_check_title'
+            'rules' => 'trim|required|max_length[100]|callback_check_title'
         ),
         array(
             'field' => 'category',
@@ -56,12 +56,10 @@ class Admin extends Admin_Controller {
 	$this->template->set_partial('shortcuts', 'admin/partials/shortcuts');
 
         $this->data->categories = array();
-	if ($categories = $this->shop_cat_m->order_by('name')->get_all())
-	{
-		foreach ($categories->result() as $category)
-		{
-			$this->data->categories[$category->id] = $category->name;
-		}
+	if ($categories = $this->shop_cat_m->order_by('name')->get_all()) {
+            foreach ($categories->result() as $category) {
+                    $this->data->categories[$category->id] = $category->name;
+            }
 	}
     }
 
@@ -138,14 +136,35 @@ class Admin extends Admin_Controller {
 
     public function list_items()
     {
-        $all_items = $this->shop_items_m->get_all();
+        $base_where = array();
+
+        //add post values to base_where if f_module is posted
+        $base_where = $this->input->post('f_category') ? $base_where + array('category' => $this->input->post('f_category')) : $base_where;
+
+        $base_where = $this->input->post('f_status') ? $base_where + array('status' => $this->input->post('f_status')) : $base_where;
+
+        $base_where = $this->input->post('f_keywords') ? $base_where + array('keywords' => $this->input->post('f_keywords')) : $base_where;
+
+
+        $all_items = $this->shop_items_m->get_all($base_where);
         $data['all_items'] = $all_items;
+
+        $total_rows = $all_items->num_rows();
+        $pagination = create_pagination('/admin/shop/list_items', $total_rows);
+
+        //do we need to unset the layout because the request is ajax?
+	$this->is_ajax() ? $this->template->set_layout(FALSE) : '';
+
         $this->template
                         ->title($this->module_details['name'], lang('shop.item_list_title'))
                         ->set('categories', $this->data->categories)
+                        ->set('pagination', $pagination)
+                        ->append_metadata(js('admin/filter.js'))
                         ->set_partial('filters', 'admin/partials/filters')
                         ->build('admin/list_items', $data);
     }
+
+
 
 
     public function delete_item($id=0)
@@ -181,7 +200,7 @@ class Admin extends Admin_Controller {
     {
         $item = $this->shop_items_m->get($id);
         $item->title = $item->name;
-        $item->status = ($item->active == 0) ? 'Draft' : 'Live';
+        $item->status = ($item->status == 0) ? 'Draft' : 'Live';
 
             $item or redirect('admin/shop/list_items');
 

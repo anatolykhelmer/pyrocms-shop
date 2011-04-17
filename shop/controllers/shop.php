@@ -53,10 +53,17 @@ class Shop extends Public_Controller {
      */
     public function view_category($id)
     {
-        $items = $this->shop_items_m->get_all_in_cat($id);
+        $search = $this->input->post('search');
+        if ($search) {
+            $items =$this->shop_items_m->search($search);
+        }
+        else {
+            $items = $this->shop_items_m->get_all_in_cat($id);
+        }
         $data['items'] = $items;
         $cat = $this->shop_cat_m->get($id);
         $data['cat_name'] = $cat->name;
+        $data['cat_id'] = $cat->id;
         
         $thumbs = array();
 
@@ -116,9 +123,9 @@ class Shop extends Public_Controller {
                'options' => array()
             );
         $this->cart->product_name_rules	= '\.\:\-_ a-z0-9א-ת';
+        
 
         if ($this->cart->insert($data) == false) die('Can not insert data to cart: ' .var_dump($data));
-
         $this->template
                         ->title($this->module_details['name'])
                         ->build('view_cart');

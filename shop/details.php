@@ -44,7 +44,7 @@ class Module_Shop extends Module {
                     `description` varchar(255),
                     `price` double not null,
                     `options` bool DEFAULT 0,
-                    `active` bool not null,
+                    `status` bool not null,
                     PRIMARY KEY (`id`),
                     FOREIGN KEY (`category`) REFERENCES shop_categories(`id`)
                         ON DELETE CASCADE,
