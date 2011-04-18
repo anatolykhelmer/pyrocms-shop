@@ -50,6 +50,14 @@ class Cart_m extends MY_Model {
     }
 
 
+    public function get_item_options($item_id)
+    {
+        $query = "select * from cart_item_options where cart_item_id={$this->db->escape($item_id)};";
+        $sql = $this->db->query($query);
+        return $sql;
+    }
+
+
     /**
      * Inserts shopping cart from session to db (performing checkout)
      *
@@ -75,8 +83,21 @@ class Cart_m extends MY_Model {
                                                                     {$this->db->escape($price)},
                                                                     {$this->db->escape($cart_id)});";
             if ($this->db->query($query) == false) return false;
-            return $cart_id;
+            
+            $cart_item_id = $this->db->insert_id();
+            
+            if (count($item['options']) != 0) {
+                foreach ($item['options'] as $name => $value) {
+                    $query = "insert into cart_item_options (name, value, cart_item_id) values (
+                                                                    {$this->db->escape($name)},
+                                                                    {$this->db->escape($value)},
+                                                                    {$this->db->escape($cart_item_id)});";
+                    $sql = $this->db->query($query);
+                    if ($sql == false) return false;
+                }
+            }
         }
+        return $cart_id;
     }
 }
 /* End of file cart_m.php */

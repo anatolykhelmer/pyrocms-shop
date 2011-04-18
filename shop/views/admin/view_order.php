@@ -25,7 +25,17 @@
 
                 <tr>
                   <td><?php echo $item->qty; ?></td>
-                  <td><?php echo $item->name; ?></td>
+                  <td>
+                    <?php echo $item->name; ?>
+                         <?php  if (count($item_options)) : ?>
+                              <?php foreach ($item_options[$item->id]->result() as $option) : ?>
+              
+                                  <p>
+                                      <b><?php echo $option->name; ?>: </b> <?php echo $option->value; ?>
+                                  </p>
+                              <?php endforeach; ?>
+                          <?php endif; ?>
+                  </td>
                   <td><?php echo $item->price; ?></td>
                   <td><?php echo $sum; ?></td>
                 </tr>

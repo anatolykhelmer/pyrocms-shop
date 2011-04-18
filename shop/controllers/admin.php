@@ -40,6 +40,16 @@ class Admin extends Admin_Controller {
             'field' => 'description',
             'label' => 'lang:shop.item_description_label',
             'rules' => 'trim|max_length[255]'
+        ),
+        array(
+            'field' => 'value[]',
+            'label' => 'lang:shop.item_option_value_label',
+            'rules' => 'trim|max_length[20]'
+        ),
+        array(
+            'field' => 'option_name',
+            'label' => 'lang:shop.item_option_name_label',
+            'rules' => 'trim'
         )
     );
 
@@ -81,7 +91,7 @@ class Admin extends Admin_Controller {
     {
         // Javascript for dynamic textboxes
         $html_to_paste = '<li><label for=value>' .$this->lang->line("shop.item_option_value_label").
-                         ' #" + counter + "</label><input class=text type=text name=value" + counter + "></li>';
+                         ' #" + counter + "</label><input class=text type=text name=value[" + counter + "] ></li>';
 
         $shop_js = '<script type="text/javascript">
             jQuery(function(){
@@ -354,10 +364,20 @@ class Admin extends Admin_Controller {
     {   
         $cart = $this->cart_m->get($id);
         $items = $this->cart_m->get_items($id);
+
+        $item_options = array();
+
+        // Now for each item - its options
+        // Save it in array item_options ( item_id => item_options )
+        foreach($items->result() as $item) {
+            $item_options[$item->id] = $this->cart_m->get_item_options($item->id);
+        }
+
         $customer_id = $cart->customer;
 
         $this->data->cart = $cart;
         $this->data->items = $items;
+        $this->data->item_options = $item_options;
 
         // Render the view
         $this->template

@@ -45,6 +45,37 @@ class Shop_Items_m extends MY_Model {
         return $row;
     }
 
+
+    public function get_options($id=0)
+    {
+        $query = "select * from `shop_item_options` where item_id={$this->db->escape($id)};";
+        $sql = $this->db->query($query);
+        return $sql;
+    }
+
+    /**
+     * Get all values for option with id specified
+     *
+     * @param int $option_id
+     * @return sql query result
+     */
+    public function get_option_values($option_id=0)
+    {
+        $query = "select * from `shop_item_option_values` where option_id={$this->db->escape($option_id)};";
+        $sql = $this->db->query($query);
+        return $sql;
+    }
+
+
+    public function get_option_value($value_id=0)
+    {
+        $query = "select * from `shop_item_option_values` where id={$this->db->escape($value_id)};";
+        $sql = $this->db->query($query);
+        $row = $sql->row();
+        return $row;
+    }
+
+
     public function search($word)
     {
         $word = '%'.$word.'%';
@@ -64,11 +95,32 @@ class Shop_Items_m extends MY_Model {
         $status = $this->db->escape($status);
         $description = $this->db->escape($params['description']);
         
-
+        // Let's start from items
         $query = "insert into `shop_items` (name, price, category, gallery, status, description)
                     values ($name, $price, $category, $gallery, $status, $description);";
         $sql = $this->db->query($query);
-        return $sql;
+        if ($sql == false) return false;
+
+        $item_id = $this->db->insert_id();
+
+        // Now options if we have
+        // Option name first of all
+        if (isset($params['option_name']) && $params['option_name'] != '') {
+            $query = "insert into `shop_item_options` (name, item_id) values ({$this->db->escape($params['option_name'])}, {$this->db->escape($item_id)});";
+            $sql = $this->db->query($query);
+            $item_option_id = $this->db->insert_id();
+            if ($sql == false) return false;
+        
+            // And option values
+            if (isset($params['value']) && $params['value'] != '') {
+                foreach ($params['value'] as $option_value_id => $value) {
+                    $query = "insert into `shop_item_option_values` (option_id, value) values ({$this->db->escape($item_option_id)}, {$this->db->escape($value)});";
+                    $sql = $this->db->query($query);
+                    if ($sql == false) return false;
+                }
+            }
+        }
+        return TRUE;
     }
 
     public function delete($id)

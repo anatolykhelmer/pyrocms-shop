@@ -5,7 +5,7 @@
 
 class Module_Shop extends Module {
 
-    public $version = "0.4";
+    public $version = "0.5";
 
     public function info()
     {
@@ -99,6 +99,18 @@ class Module_Shop extends Module {
                     ) ENGINE = InnoDB CHARSET utf8;";
         $sql = $this->db->query($query);
         if ($sql == false) return false;
+
+        $query = "create table if not exists `cart_item_options` (
+                    `id` int auto_increment,
+                    `name` varchar(20) not null,
+                    `value` varchar(20) not null,
+                    `cart_item_id` int not null,
+                    PRIMARY KEY (`id`),
+                    FOREIGN KEY (`cart_item_id`) REFERENCES cart_items(`id`)
+                        ON DELETE CASCADE
+                    ) ENGINE = InnoDB CHARSET utf8;";
+        $sql = $this->db->query($query);
+        if ($sql == false) return false;
         
         return TRUE;
     }
@@ -109,6 +121,7 @@ class Module_Shop extends Module {
                                         shop_item_options,
                                         shop_items,
                                         shop_categories,
+                                        cart_item_options,
                                         cart_items,
                                         cart;";
         $sql = $this->db->query($query);

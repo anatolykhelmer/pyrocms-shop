@@ -55,12 +55,12 @@
                         <div class="option_values">
                             <ul>
                                 <li>
-                                    <label for="value1"><?php echo lang('shop.item_option_value_label'); ?> #1</label>
-                                    <?php echo form_input('value1'); ?>
+                                    <label for="value[1]"><?php echo lang('shop.item_option_value_label'); ?> #1</label>
+                                    <?php echo form_input('value[1]'); ?>
                                 </li>
                                 <li>
-                                    <label for="value2"><?php echo lang('shop.item_option_value_label'); ?> #2</label>
-                                    <?php echo form_input('value2'); ?>
+                                    <label for="value[2]"><?php echo lang('shop.item_option_value_label'); ?> #2</label>
+                                    <?php echo form_input('value[2]'); ?>
                                 </li>
                                 <li class="add_value">
                                     [ <a href="#" id ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]

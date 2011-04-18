@@ -1,4 +1,5 @@
 <h2 id="page_title"><?php echo $this->module_details['name']; ?></h2>
+  <?php echo form_open('/shop/add_to_cart/' .$item->id); ?>
 <div id="item_photos">
     
     <?php foreach($item_images as $item_image): ?>
@@ -25,8 +26,21 @@
     <?php echo $item->description; ?>
 </div>
 
-<div id="add_to_cart">
-    <?php echo form_open('/shop/add_to_cart/' .$item->id); ?>
-        <input type="submit" id="add_to_cart_button" value="<?php echo lang('shop.cart_add_to_cart'); ?>" >
-    <?php echo form_close(); ?>
+<div id="item_options">
+    <h3><?php echo lang('shop.item_options_label'); ?></h3>
+    <?php // Loop throw options
+        foreach ($item_options->result() as $item_option) : ?>
+    <p>
+        <label for="item_option"><?php echo $item_option->name; ?></label>
+        <?php echo form_dropdown('item_options['.$item_option->id. ']', $options_values_array[$item_option->id]); ?>
+    </p>
+
+    <?php endforeach; ?>
 </div>
+
+<div id="add_to_cart">
+  
+        <input type="submit" id="add_to_cart_button" value="<?php echo lang('shop.cart_add_to_cart'); ?>" >
+
+</div>
+    <?php echo form_close(); ?>
