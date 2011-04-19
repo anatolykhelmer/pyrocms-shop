@@ -4,7 +4,7 @@
  * @subpackage 		Shop Categories Widget
  * @author              Anatoly Khelmer
  *
- * Show Twitter streams in your site
+ * Show shop categories in your site
  */
 
 class Widget_Shop_categories extends Widgets
