@@ -16,9 +16,19 @@ class Cart_m extends MY_Model {
 
     public function get($id=0)
     {
-        $query = "select cart.id, cart.date, cart.customer, users.username as username
-                from cart, users
-                where cart.id = {$this->db->escape($id)} and users.id = cart.customer LIMIT 1";
+        $query = "select cart.id,
+                         cart.date,
+                         cart.customer,
+                         users.username as username,
+                         users.email as email,
+                         profiles.first_name as first_name,
+                         profiles.last_name as last_name,
+                         profiles.phone as phone,
+                         profiles.address_line1 as address_line1,
+                         profiles.address_line2 as address_line2,
+                         profiles.address_line3 as address_line3
+                from cart, users, profiles
+                where cart.id = {$this->db->escape($id)} and users.id = cart.customer and profiles.user_id = cart.id LIMIT 1";
         $sql = $this->db->query($query);
         $row = $sql->row();
         return $row;

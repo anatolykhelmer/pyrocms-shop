@@ -3,7 +3,21 @@
 </h2>
 
 <div id="customer_info">
-    <p><?php echo lang('shop.customer_username_label'). ': ' .$cart->username; ?></p>
+    <dl>
+        <dt><?php echo lang('shop.customer_username_label'); ?></dt>
+        <dd><?php echo $cart->username; ?></dd>
+
+        <dt><?php echo lang('user_email'); ?></dt>
+        <dd><?php echo $cart->email; ?></dd>
+        
+        <dt><?php echo lang('profile_phone'); ?></dt>
+        <dd><?php echo $cart->phone; ?></dd>
+
+        <dt><?php echo lang('profile_address'); ?></dt>
+        <dd><?php echo $cart->address_line1; ?></dd>
+        <dd><?php echo $cart->address_line2; ?></dd>
+        <dd><?php echo $cart->address_line3; ?></dd>
+    </dl>
 </div>
 
 

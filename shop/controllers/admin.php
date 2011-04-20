@@ -1,5 +1,9 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * @author Anatoly Khelmer
+ */
+
 class Admin extends Admin_Controller {
 
     private $cat_validation_rules = array(
@@ -75,6 +79,9 @@ class Admin extends Admin_Controller {
 
     
 
+    /**
+     * View all categories
+     */
     public function index()
     {
         $all_cat = $this->shop_cat_m->get_all();
@@ -107,7 +114,7 @@ class Admin extends Admin_Controller {
         $this->load->model('galleries/galleries_m');
 
         // All galleries names to array
-        $galleries = $this->galleries_m->get_all();
+        $galleries = $this->galleries_m->get_all(); // Very problematic!!!!
         $gal = array();
         foreach ($galleries as $gallery) {
             $gal[$gallery->id] = $gallery->title;
@@ -121,6 +128,7 @@ class Admin extends Admin_Controller {
                 redirect('admin/shop/list_items');
             }
             // if not
+            $this->session->set_flashdata('error', sprintf( lang('shop.item_add_error'), $this->input->post('title')));
         }
 
         // Loop through each validation rule
@@ -349,6 +357,15 @@ class Admin extends Admin_Controller {
     {
         $orders = $this->cart_m->get_all();
         $this->data->orders = $orders;
+
+        // Find all cart info for each cart and store it in array (cart_id => cart_info(array from db))
+        $info_array = array();
+        foreach ($orders->result() as $order) {
+            $cart_info = $this->cart_m->get($order->id);
+            $info_array += array($order->id => $cart_info);
+        }
+        $this->data->info_array = $info_array;
+
         // Render the view
         $this->template
                         ->title($this->module_details['name'])
@@ -380,8 +397,10 @@ class Admin extends Admin_Controller {
         $this->data->item_options = $item_options;
 
         // Render the view
+        $this->lang->load('users/profile');
         $this->template
                         ->title($this->module_details['name'])
+                        ->append_metadata(css('shop-style.css', 'shop'))
                         ->build('admin/view_order', $this->data);
     }
 

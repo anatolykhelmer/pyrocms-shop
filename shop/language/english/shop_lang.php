@@ -41,6 +41,10 @@ $lang['shop.item_option_value_label'] = 'Value';
 $lang['shop.item_option_value_add_label'] = 'Add Value Textbox';
 $lang['shop.item_view_gallery_title']   = 'View All Gallery';
 
+
+// Cart
+$lang['shop.cart_date'] = 'Order Date';
+
 $lang['shop.cart_add_to_cart']          = 'Add To Cart';
 $lang['shop.search_label']              = 'Search';
 

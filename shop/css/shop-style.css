@@ -9,3 +9,12 @@ div.option_values {
     height: 300px;
     margin-left: 10px;
 }
+
+#customer_info dl dd{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#customer_info dl dt {
+    font-weight: bolder;
+}

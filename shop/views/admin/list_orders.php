@@ -9,6 +9,8 @@
 		<tr>
 			<th width="20"><?php echo form_checkbox(array('name' => 'action_to_all', 'class' => 'check-all')); ?></th>
 			<th><?php echo lang('shop.invoice_num_label'); ?></th>
+                        <th><?php echo lang('shop.customer_username_label'); ?></th>
+                        <th><?php echo lang('shop.cart_date'); ?></th>
 			<th width="200" class="align-center"><span><?php echo lang('shop.cat_actions_label'); ?></span></th>
 		</tr>
 		</thead>
@@ -24,6 +26,8 @@
 			<tr>
 				<td><?php echo form_checkbox('action_to[]', $order->id); ?></td>
 				<td><a href="/admin/shop/view_order/<?php echo $order->id; ?>"><?php echo $order->id; ?></a></td>
+                                <td><?php echo $info_array[$order->id]->username; ?></td>
+                                <td><?php echo $order->date; ?></td>
 				<td class="align-center buttons buttons-small">
 					<?php echo anchor('admin/shop/cancel_order/' . $order->id, lang('shop.cat_edit_label'), 'class="button edit"'); ?>
 				</td>
