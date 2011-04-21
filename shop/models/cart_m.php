@@ -28,7 +28,7 @@ class Cart_m extends MY_Model {
                          profiles.address_line2 as address_line2,
                          profiles.address_line3 as address_line3
                 from cart, users, profiles
-                where cart.id = {$this->db->escape($id)} and users.id = cart.customer and profiles.user_id = cart.id LIMIT 1";
+                where cart.id = {$this->db->escape($id)} and users.id = cart.customer and profiles.user_id = cart.customer LIMIT 1";
         $sql = $this->db->query($query);
         $row = $sql->row();
         return $row;
@@ -37,7 +37,7 @@ class Cart_m extends MY_Model {
 
     public function get_all()
     {
-        $query = "select * from cart order by date;";
+        $query = "select * from cart order by date desc;";
         $sql = $this->db->query($query);
         return $sql;
     }
