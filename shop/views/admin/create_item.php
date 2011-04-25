@@ -9,7 +9,7 @@
     </ul>
 
     <div id="item-content">
-    <ol>
+        <ol>
             <li>
                 <label for="title"><?php echo lang('shop.item_title_label'); ?></label>
                 <?php echo form_input('title', htmlspecialchars_decode($post->title), 'maxlength="100"'); ?>
@@ -47,27 +47,28 @@
 
     <div id="item-options">
         
-        <ol>
-            <li>
-                        <label for="option_name"><?php echo lang('shop.item_option_name_label'); ?></label>
-                        <?php echo form_input('option_name'); ?>
+        <ol id="options">
+            <h3>[ <a href="#" id="add_option">Add Option</a> ] | [ <a href="#" id="delete_option">Delete Option</a> ] </h3>
+            
+                <li><h3>Option No.1</h3>
+                            <label for="option_name[1]"><span><?php echo lang('shop.item_option_name_label'); ?></span></label>
+                            <?php echo form_input('option_name[1]'); ?>
 
-                        <div class="option_values">
-                            <ul>
-                                <li>
-                                    <label for="value[1]"><?php echo lang('shop.item_option_value_label'); ?> #1</label>
-                                    <?php echo form_input('value[1]'); ?>
-                                </li>
-                                <li>
-                                    <label for="value[2]"><?php echo lang('shop.item_option_value_label'); ?> #2</label>
-                                    <?php echo form_input('value[2]'); ?>
-                                </li>
-                                <li class="add_value">
-                                    [ <a href="#" id ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
-                                </li>
-                            </ul>
-                        </div>
-            </li>
+                            <ol class="option_values">
+
+                                    <li>
+                                        <label for="value[1]"><span><?php echo lang('shop.item_option_value_label'); ?></span> #1</label>
+                                        <?php echo form_input('option1_value[1]'); ?>
+                                    </li>
+
+                                    <li>
+                                        [ <a href="#" class ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
+                                        | [ <a href="#" class="delete_value">Delete Value Textbox</a> ]
+                                    </li>
+
+                            </ol>
+                </li>
+
         </ol>
 
     </div>

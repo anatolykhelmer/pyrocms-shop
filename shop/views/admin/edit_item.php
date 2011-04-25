@@ -46,27 +46,37 @@
     </div>
     <div id="item-options">
 
-        <ol>
-            <li>
-                        <label for="option_name"><?php echo lang('shop.item_option_name_label'); ?></label>
-                        <?php echo form_input('option_name'); ?>
+        <ol id="options">
+            <?php $counter = 1; ?>
+            <?php foreach ($post->option_name as $opt_id => $option_name) : ?>
+            <?php if ($counter%2 == 0) $class = 'class="even"';
+                  else $class = ''; ?>
+            <li <?php echo $class; ?> >
+                        <label for="option_name"><span><?php echo lang('shop.item_option_name_label'); ?></span></label>
+                        <?php echo form_input('option_name['.$opt_id. ']', $option_name); ?>
 
-                        <div class="option_values">
-                            <ul>
+                     
+                            <ol class="option_values">
+                                <?php $i = 1; ?>
+                                <?php $value_name = 'option' .++$opt_id. '_value'; ?>
+                                <?php foreach ($post->{$value_name} as $value) : ?>
+                                    <li>
+                                        <label for="value[<?php echo $i; ?>]">
+                                            <span><?php echo lang('shop.item_option_value_label'); ?> </span>#<?php echo $i; ?>
+                                        </label>
+                                        <?php echo form_input($value_name.'[' .$i++. ']', $value); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                 
+               
                                 <li>
-                                    <label for="value[1]"><?php echo lang('shop.item_option_value_label'); ?> #1</label>
-                                    <?php echo form_input('value[1]'); ?>
+                                    [ <a href="#" class ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
                                 </li>
-                                <li>
-                                    <label for="value[2]"><?php echo lang('shop.item_option_value_label'); ?> #2</label>
-                                    <?php echo form_input('value[2]'); ?>
-                                </li>
-                                <li class="add_value">
-                                    [ <a href="#" id ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
-                                </li>
-                            </ul>
-                        </div>
+                            </ol>
+            
             </li>
+            <?php $counter++; ?>
+             <?php endforeach; ?>
         </ol>
 
     </div>

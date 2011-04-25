@@ -6,8 +6,6 @@
 
 class Admin extends Admin_Controller {
 
-    private $html_to_paste;
-    private $shop_js;
 
     private $cat_validation_rules = array(
         array(
@@ -49,12 +47,17 @@ class Admin extends Admin_Controller {
             'rules' => 'trim|max_length[255]'
         ),
         array(
-            'field' => 'value[]',
+            'field' => 'option1_value[]',
             'label' => 'lang:shop.item_option_value_label',
             'rules' => 'trim|max_length[20]'
         ),
         array(
-            'field' => 'option_name',
+            'field' => 'option2_value[]',
+            'label' => 'lang:shop.item_option_value_label',
+            'rules' => 'trim|max_length[20]'
+        ),
+        array(
+            'field' => 'option_name[]',
             'label' => 'lang:shop.item_option_name_label',
             'rules' => 'trim'
         )
@@ -78,21 +81,6 @@ class Admin extends Admin_Controller {
                     $this->data->categories[$category->id] = $category->name;
             }
 	}
-
-
-        $this->html_to_paste = '<li><label for=value>' .$this->lang->line("shop.item_option_value_label").
-                         ' #" + counter + "</label><input class=text type=text name=value[" + counter + "] ></li>';
-
-        $this->shop_js = '<script type="text/javascript">
-                                jQuery(function(){
-                                    var counter = 2;
-                                    jQuery("#add_value").click(function(){
-                                        counter++;
-                                        jQuery(".add_value").before("' .$this->html_to_paste. '");
-                                        return false;
-                                    });
-                                 });
-                          </script>';
     }
 
     
@@ -127,7 +115,9 @@ class Admin extends Admin_Controller {
         $this->form_validation->set_rules($this->item_validation_rules);
 
         if($this->form_validation->run()) {
+    
             if ($this->shop_items_m->create($this->input->post())) {
+               
                 $this->session->set_flashdata('success', sprintf( lang('shop.item_add_success'), $this->input->post('title')) );
                 redirect('admin/shop/list_items');
             }
@@ -147,7 +137,7 @@ class Admin extends Admin_Controller {
                         ->title($this->module_details['name'], lang('shop.item_create_title'))
                         ->append_metadata($this->load->view('fragments/wysiwyg', $this->data, TRUE))
                         ->append_metadata(css('shop-style.css', 'shop'))
-                        ->append_metadata($this->shop_js)
+                        ->append_metadata(js('shop.js', 'shop'))
                         ->set('galleries', $gal)
                         ->build('admin/create_item', $this->data);
     }
@@ -237,12 +227,21 @@ class Admin extends Admin_Controller {
         // For each option we need to get an array of values and all this
         // we will save in array (item_option_id => sql result)
         $options_values_array = array();
-        
+        $k = 0;
         foreach ($item_options->result() as $item_option) {
+            $k++;
+            $item->option_name[] = $item_option->name;
             $item_option_values = $this->shop_items_m->get_option_values($item_option->id);
+
+            $value_name = 'option' .$k. '_value';
+            $item->{$value_name} = array();
+            $i = 1;
+            foreach ($item_option_values->result() as $value) {
+                $item->{$value_name}[$i++] = $value->value;
+            }
             $options_values_array += array($item_option->id => $item_option_values);
         }
-
+//die(var_dump($item));
         // Get all galleries
         $this->load->model('galleries/galleries_m');
         $galleries = $this->galleries_m->get_all();
@@ -275,7 +274,7 @@ class Admin extends Admin_Controller {
         $this->template->title($this->module_details['name'], lang('shop.item_edit_title'))
                                         ->append_metadata($this->load->view('fragments/wysiwyg', $this->data, TRUE))
                                         ->set('galleries', $gal)
-                                        ->append_metadata($this->shop_js)
+                                        ->append_metadata(js('shop.js', 'shop'))
                                         ->append_metadata(css('shop-style.css', 'shop'))
                                         ->build('admin/edit_item', $this->data);
     }
@@ -430,6 +429,9 @@ class Admin extends Admin_Controller {
                         ->append_metadata(css('shop-style.css', 'shop'))
                         ->build('admin/view_order', $this->data);
     }
+
+
+    
 
 
 

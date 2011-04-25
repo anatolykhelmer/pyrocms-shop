@@ -1,6 +1,5 @@
-div.option_values {
-    float: right;
-    width: 500px;
+ol.option_values {
+    padding-left: 150px;
 }
 
 #item_photos {

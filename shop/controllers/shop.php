@@ -245,6 +245,52 @@ class Shop extends Public_Controller {
     }
 
 
+    /**
+     * View all user's orders
+     */
+    public function my_orders()
+    {
+        $user_id = $this->session->userdata('user_id');
+
+        // Logged in user - get him all his carts
+        if ($user_id) {
+            $carts = $this->cart_m->get_by_customer($user_id);
+   
+            $orders = array();
+            $i = 0;
+            foreach ($carts->result() as $cart) {
+                
+                $order = $this->cart_m->get($cart->id);
+                $order->items = array();
+
+                $order_items = $this->cart_m->get_items($order->id);
+                
+                foreach ($order_items->result() as $order_item) {
+       
+                    $options = $this->cart_m->get_item_options($order_item->id);
+                    $order_item->options = array();
+                    //$order_item->options = array();
+                    foreach ($options->result() as $option) {
+                        $order_item->options += array($option);
+                    }
+                    $order->items += array($order_item);
+
+                }
+
+                $orders[] = $order;
+                $i++;
+            }
+            $data['orders'] = $orders;
+            // Render the view
+            $this->template
+                            ->title($this->module_details['name']. ' - ' .lang('shop.cart_title'))
+                            ->build('my_orders', $data);
+        }
+        // Not logged in - so log in
+        else redirect('/users/login');
+    }
+
+
     public function check_out()
     {
         if ($this->user == false) redirect('/users/login');

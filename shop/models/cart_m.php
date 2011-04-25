@@ -42,6 +42,13 @@ class Cart_m extends MY_Model {
         return $sql;
     }
 
+    public function get_by_customer($cust_id)
+    {
+        $query = "select id from cart where customer={$this->db->escape($cust_id)};";
+        $sql = $this->db->query($query);
+        return $sql;
+    }
+
 
     
     public function get_customer_info($cust_id)
