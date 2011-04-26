@@ -38,6 +38,7 @@ $lang['shop.item_content_title']    = 'Item';
 $lang['shop.item_options_title']    = 'Options';
 $lang['shop.item_option_name_label'] = 'Name';
 $lang['shop.item_option_value_label'] = 'Value';
+$lang['shop.item_manufacturer_label'] = 'Manufacturer';
 $lang['shop.item_option_value_add_label'] = 'Add Value Textbox';
 $lang['shop.item_view_gallery_title']   = 'View All Gallery';
 

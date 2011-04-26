@@ -101,10 +101,11 @@ class Shop_Items_m extends MY_Model {
         $gallery = $this->db->escape($params['gallery']);
         $status = $this->db->escape($status);
         $description = $this->db->escape($params['description']);
+        $manufacturer = $this->db->escape($params['manufacturer']);
         
         // Let's start from items
-        $query = "insert into `shop_items` (name, price, category, gallery, status, description)
-                    values ($name, $price, $category, $gallery, $status, $description);";
+        $query = "insert into `shop_items` (name, price, category, gallery, status, description, manufacturer)
+                    values ($name, $price, $category, $gallery, $status, $description, $manufacturer);";
         $sql = $this->db->query($query);
         if ($sql == false) return false;
 

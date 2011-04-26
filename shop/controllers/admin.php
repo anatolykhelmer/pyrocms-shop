@@ -47,6 +47,11 @@ class Admin extends Admin_Controller {
             'rules' => 'trim|max_length[255]'
         ),
         array(
+            'field' => 'manufacturer',
+            'label' => 'lang:shop.item_manufacturer_label',
+            'rules' => 'trim|required|max_length[100]'
+        ),
+        array(
             'field' => 'option1_value[]',
             'label' => 'lang:shop.item_option_value_label',
             'rules' => 'trim|max_length[20]'
