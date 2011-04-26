@@ -23,13 +23,18 @@
 		</tfoot>
 		<tbody>
 			<?php foreach ($orders->result() as $order): ?>
-			<tr>
+			<tr <?php if ($order->new) echo 'class="bold"'; ?> >
 				<td><?php echo form_checkbox('action_to[]', $order->id); ?></td>
 				<td><a href="/admin/shop/view_order/<?php echo $order->id; ?>"><?php echo $order->id; ?></a></td>
                                 <td><?php echo $info_array[$order->id]->username; ?></td>
                                 <td><?php echo $order->date; ?></td>
 				<td class="align-center buttons buttons-small">
-					<?php echo anchor('admin/shop/cancel_order/' . $order->id, lang('shop.cat_edit_label'), 'class="button edit"'); ?>
+                                    <?php if ($order->cancelled == 0) : ?>
+					<?php echo anchor('admin/shop/cancel_order/' . $order->id, lang('shop.order_cancel_label'),
+                                                          'class="button cancel"'); ?>
+                                    <?php else : ?>
+                                        <?php echo lang('shop.order_canceled_label'); ?>
+                                    <?php endif; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -37,7 +42,7 @@
 	</table>
 
 	<div class="buttons align-right padding-top">
-		<?php $this->load->view('admin/partials/buttons', array('buttons' => array('delete') )); ?>
+		<?php $this->load->view('admin/partials/buttons', array('buttons' => array('cancel') )); ?>
 	</div>
 
 	<?php echo form_close(); ?>

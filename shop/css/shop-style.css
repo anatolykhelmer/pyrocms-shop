@@ -2,6 +2,10 @@ ol.option_values {
     padding-left: 150px;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 #item_photos {
     float: right;
     width: 200px;

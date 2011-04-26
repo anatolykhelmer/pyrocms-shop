@@ -19,6 +19,8 @@ class Cart_m extends MY_Model {
         $query = "select cart.id,
                          cart.date,
                          cart.customer,
+                         cart.new as is_new,
+                         cart.cancelled as is_cancelled,
                          users.username as username,
                          users.email as email,
                          profiles.first_name as first_name,
@@ -35,9 +37,25 @@ class Cart_m extends MY_Model {
     }
 
 
-    public function get_all()
+    public function get_all($base_where = array())
     {
-        $query = "select * from cart order by date desc;";
+      
+        $where = '';
+        if (!empty($base_where)) {
+            $where = 'where ';
+            $i = 0;
+         
+            foreach($base_where as $name => $value) {
+                $where .= ($i) ? ' and ' : '';
+                if ($name == 'canceled') $name = 1;
+                else $name = 0;
+                $where .= "{$name} = {$this->db->escape($value)}";
+                $i++;
+            }
+
+        }
+        
+        $query = "select * from cart $where order by date desc;";
         $sql = $this->db->query($query);
         return $sql;
     }
@@ -115,6 +133,30 @@ class Cart_m extends MY_Model {
             }
         }
         return $cart_id;
+    }
+
+    public function set_old($id)
+    {
+        $query = "update cart set new=0 where id={$this->db->escape($id)};";
+        $sql = $this->db->query($query);
+        return $sql;
+    }
+
+    public function cancel_order($id)
+    {
+        if (is_array($id)) {
+            foreach ($id as $id_to_cancel) {
+                $query = "update cart set cancelled=1 where id={$this->db->escape($id_to_cancel)};";
+                $sql = $this->db->query($query);
+                if ($sql == false) return FALSE;
+            }
+        }
+        else {
+            $query = "update cart set cancelled=1 where id={$this->db->escape($id)};";
+            $sql = $this->db->query($query);
+            if ($sql == false) return FALSE;
+        }
+        return TRUE;
     }
 }
 /* End of file cart_m.php */

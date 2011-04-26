@@ -60,6 +60,7 @@ $lang['shop.invoice_num_label']         = 'Invoice No.';
 $lang['shop.orders_list_title']         = 'Orders';
 $lang['shop.order_canceled_label']      = 'Canceled';
 $lang['shop.order_live_label']          = 'Live';
+$lang['shop.order_cancel_label']        = 'Cancel Order';
 
 
 // messages

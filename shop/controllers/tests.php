@@ -57,11 +57,15 @@ class Tests extends Admin_Controller {
         $this->unit->run($test, $expected_result, $test_name);
 
         // Test Create Item
+        $sql = $this->db->query("select id from shop_categories limit 1;");
+        $row = $sql->row();
+        $category = $row->id;
+
         $params = array (
             'title' => 'Unit Test Item',
             'status' => 'draft',
             'price' => '2500',
-            'category' => '2',
+            'category' => $category,
             'gallery'   => '2',
             'description' => 'Just Unit Test item',
             'option_name' => array(

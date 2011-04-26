@@ -21,8 +21,15 @@ class Shop_Items_m extends MY_Model {
                     if ($value == 'draft') $value = 0;
                     else $value = 1;
                 }
-                $where .= "{$name} = {$this->db->escape($value)}";
-                $i++;
+                // Need to use "like" if it is a name
+                if ($name == 'name') {
+                    $value = '%'. $value. '%';
+                    $where .= "{$name} like {$this->db->escape($value)}";
+                }
+                else {
+                    $where .= "{$name} = {$this->db->escape($value)}";
+                    $i++;
+                }
             }
         }
         $query = "select * from `shop_items` $where;";

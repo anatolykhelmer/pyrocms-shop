@@ -5,7 +5,7 @@
 
 class Module_Shop extends Module {
 
-    public $version = "0.5";
+    public $version = "0.6";
 
     public function info()
     {
@@ -40,6 +40,7 @@ class Module_Shop extends Module {
                 $query = "create table if not exists `shop_items` (
                             `id` int auto_increment,
                             `name` varchar(255) not null,
+                            `manufacturer` varchar(100) not null,
                             `category` int not null,
                             `gallery` int,
                             `description` varchar(255),
@@ -78,6 +79,8 @@ class Module_Shop extends Module {
                             `id` int auto_increment,
                             `customer` smallint unsigned not null,
                             `date` timestamp,
+                            `cancelled` bool not null DEFAULT 0,
+                            `new` bool not null DEFAULT 1,
                             PRIMARY KEY (`id`),
                             FOREIGN KEY (`customer`) REFERENCES users(`id`)
                                 ON DELETE CASCADE

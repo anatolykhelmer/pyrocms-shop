@@ -155,7 +155,7 @@ class Admin extends Admin_Controller {
 
         $base_where = $this->input->post('f_status') ? $base_where + array('status' => $this->input->post('f_status')) : $base_where;
 
-        $base_where = $this->input->post('f_keywords') ? $base_where + array('keywords' => $this->input->post('f_keywords')) : $base_where;
+        $base_where = $this->input->post('f_keywords') ? $base_where + array('name' => $this->input->post('f_keywords')) : $base_where;
 
 
         $all_items = $this->shop_items_m->get_all($base_where);
@@ -382,7 +382,13 @@ class Admin extends Admin_Controller {
 
     public function list_orders()
     {
-        $orders = $this->cart_m->get_all();
+        $base_where = array();
+
+        //add post values to base_where if f_module is posted
+        $base_where = $this->input->post('f_status') ? $base_where + array('cancelled' => $status) : $base_where;
+
+        
+        $orders = $this->cart_m->get_all($base_where);
         $this->data->orders = $orders;
 
         // Find all cart info for each cart and store it in array (cart_id => cart_info(array from db))
@@ -392,10 +398,17 @@ class Admin extends Admin_Controller {
             $info_array += array($order->id => $cart_info);
         }
         $this->data->info_array = $info_array;
+
+        // Is AJAX
+        $this->is_ajax() ? $this->template->set_layout(false) : '';
+
+
         // Render the view
         $this->template
                         ->title($this->module_details['name'])
                         ->set('categories', $this->data->categories)
+                        ->append_metadata(css('shop-style.css', 'shop'))
+                        ->append_metadata(js('admin/filter.js'))
                         ->set_partial('filters', 'admin/partials/filterorders')
                         ->build('admin/list_orders', $this->data);
     }
@@ -421,6 +434,7 @@ class Admin extends Admin_Controller {
         $this->data->cart = $cart;
         $this->data->items = $items;
         $this->data->item_options = $item_options;
+        $this->cart_m->set_old($id);
 
         // Render the view
         $this->lang->load('users/profile');
@@ -428,6 +442,13 @@ class Admin extends Admin_Controller {
                         ->title($this->module_details['name'])
                         ->append_metadata(css('shop-style.css', 'shop'))
                         ->build('admin/view_order', $this->data);
+    }
+
+    public function cancel_order($id=0)
+    {
+        $this->cart_m->cancel_order($id); // need to check if returns false
+
+        $this->list_orders();
     }
 
 
