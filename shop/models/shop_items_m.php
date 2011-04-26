@@ -160,6 +160,7 @@ class Shop_Items_m extends MY_Model {
         $gallery = $this->db->escape($params['gallery']);
         $status = $this->db->escape($status);
         $description = $this->db->escape($params['description']);
+        $manufacturer = $this->db->escape($params['manufacturer']);
 
         // Let's start from items
         $query = "update `shop_items`  set name = $name,
@@ -167,6 +168,7 @@ class Shop_Items_m extends MY_Model {
                                            category = $category,
                                            gallery = $gallery,
                                            status = $status,
+                                           manufacturer = $manufacturer,
                                            description = $description where id={$this->db->escape($id)};";
         $sql = $this->db->query($query);
         if ($sql == false) return false;
