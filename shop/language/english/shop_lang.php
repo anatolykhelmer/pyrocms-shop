@@ -39,7 +39,14 @@ $lang['shop.item_options_title']    = 'Options';
 $lang['shop.item_option_name_label'] = 'Name';
 $lang['shop.item_option_value_label'] = 'Value';
 $lang['shop.item_manufacturer_label'] = 'Manufacturer';
+
 $lang['shop.item_option_value_add_label'] = 'Add Value Textbox';
+$lang['shop.item_option_value_delete_label'] = 'Delete Value Textbox';
+$lang['shop.item_option_add_label'] = 'Add Option'; 
+$lang['shop.item_option_delete_label'] = 'Delete Option';
+
+$lang['shop.item_option_number_label'] = 'Option No.';
+
 $lang['shop.item_view_gallery_title']   = 'View All Gallery';
 
 

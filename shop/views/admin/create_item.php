@@ -54,9 +54,16 @@
     <div id="item-options">
         
         <ol id="options">
-            <h3>[ <a href="#" id="add_option">Add Option</a> ] | [ <a href="#" id="delete_option">Delete Option</a> ] </h3>
-            
-                <li><h3>Option No.1</h3>
+            <h3>[ <a href="#" id="add_option">
+                    <?php echo lang('shop.item_option_add_label'); ?>
+                </a>
+                ] | [
+                <a href="#" id="delete_option">
+                    <?php echo lang('shop.item_option_delete_label'); ?>
+                </a> ]
+            </h3>
+            <hr>
+                <li><h3><span><?php echo lang('shop.item_option_number_label'); ?></span>1</h3>
                             <label for="option_name[1]"><span><?php echo lang('shop.item_option_name_label'); ?></span></label>
                             <?php echo form_input('option_name[1]'); ?>
 
@@ -69,13 +76,14 @@
 
                                     <li>
                                         [ <a href="#" class ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
-                                        | [ <a href="#" class="delete_value">Delete Value Textbox</a> ]
+                                        | [ <a href="#" class="delete_value"><?php echo lang('shop.item_option_value_delete_label'); ?></a> ]
                                     </li>
-
+                                    
                             </ol>
                 </li>
 
         </ol>
+        
 
     </div>
 </div>

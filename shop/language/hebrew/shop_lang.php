@@ -40,7 +40,14 @@ $lang['shop.item_content_title']    = 'פריט';
 $lang['shop.item_options_title']    = 'אופציות';
 $lang['shop.item_option_name_label'] = 'שם האופציה';
 $lang['shop.item_option_value_label'] = 'ערך האופציה';
+
 $lang['shop.item_option_value_add_label'] = 'הוסף שדה';
+$lang['shop.item_option_value_delete_label'] = 'הסר שדה';
+$lang['shop.item_option_add_label'] = 'הוסף אופציה'; 
+$lang['shop.item_option_delete_label'] = 'הסר אופציה';
+
+$lang['shop.item_option_number_label'] = 'אופציה מס.';
+
 $lang['shop.item_view_gallery_title']   = 'הצג את כל הגלריה';
 
 $lang['shop.cart_add_to_cart']          = 'הוסף לסל';

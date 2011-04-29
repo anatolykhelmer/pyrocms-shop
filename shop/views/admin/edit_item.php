@@ -53,36 +53,47 @@
     <div id="item-options">
 
         <ol id="options">
+            <h3>[ <a href="#" id="add_option">
+                    <?php echo lang('shop.item_option_add_label'); ?>
+                </a>
+                ] | [
+                <a href="#" id="delete_option">
+                    <?php echo lang('shop.item_option_delete_label'); ?>
+                </a> ]
+            </h3>
+
+            <hr>
+            
             <?php $counter = 1; ?>
             <?php foreach ($post->option_name as $opt_id => $option_name) : ?>
-            <?php if ($counter%2 == 0) $class = 'class="even"';
-                  else $class = ''; ?>
-            <li <?php echo $class; ?> >
-                        <label for="option_name"><span><?php echo lang('shop.item_option_name_label'); ?></span></label>
-                        <?php echo form_input('option_name['.$opt_id. ']', $option_name); ?>
-
-                     
-                            <ol class="option_values">
-                                <?php $i = 1; ?>
-                                <?php $value_name = 'option' .++$opt_id. '_value'; ?>
-                                <?php foreach ($post->{$value_name} as $value) : ?>
-                                    <li>
-                                        <label for="value[<?php echo $i; ?>]">
-                                            <span><?php echo lang('shop.item_option_value_label'); ?> </span>#<?php echo $i; ?>
-                                        </label>
-                                        <?php echo form_input($value_name.'[' .$i++. ']', $value); ?>
-                                    </li>
-                                <?php endforeach; ?>
-                 
-               
-                                <li>
-                                    [ <a href="#" class ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
-                                </li>
-                            </ol>
+                    <?php if ($counter%2 == 0) $class = 'class="even"';
+                          else $class = ''; ?>
             
-            </li>
-            <?php $counter++; ?>
-             <?php endforeach; ?>
+                    <li <?php echo $class; ?> ><h3><span><?php echo lang('shop.item_option_number_label'); ?></span><?php echo $counter; ?></h3>
+                                <label for="option_name"><span><?php echo lang('shop.item_option_name_label'); ?></span></label>
+                                <?php echo form_input('option_name['.$opt_id. ']', $option_name); ?>
+
+                                    <ol class="option_values">
+                                        <?php $i = 1; ?>
+                                        <?php $value_name = 'option' .++$opt_id. '_value'; ?>
+                                        <?php foreach ($post->{$value_name} as $value) : ?>
+                                            <li>
+                                                <label for="value[<?php echo $i; ?>]">
+                                                    <span><?php echo lang('shop.item_option_value_label'); ?> </span>#<?php echo $i; ?>
+                                                </label>
+                                                <?php echo form_input($value_name.'[' .$i++. ']', $value); ?>
+                                            </li>
+                                        <?php endforeach; ?>
+
+                                        <li>
+                                            [ <a href="#" class ="add_value"><?php echo lang('shop.item_option_value_add_label'); ?></a> ]
+                                            | [ <a href="#" class="delete_value"><?php echo lang('shop.item_option_value_delete_label'); ?></a> ]
+                                        </li>
+                                    </ol>
+
+                    </li>
+                    <?php $counter++; ?>
+            <?php endforeach; ?>
         </ol>
 
     </div>
