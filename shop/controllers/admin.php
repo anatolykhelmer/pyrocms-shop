@@ -6,7 +6,6 @@
 
 class Admin extends Admin_Controller {
 
-
     private $cat_validation_rules = array(
         array(
             'field' => 'title',
@@ -148,21 +147,14 @@ class Admin extends Admin_Controller {
     }
 
 
-
-
-
     public function list_items()
     {
         $base_where = array();
 
         //add post values to base_where if f_module is posted
         $base_where = $this->input->post('f_category') ? $base_where + array('category' => $this->input->post('f_category')) : $base_where;
-
         $base_where = $this->input->post('f_status') ? $base_where + array('status' => $this->input->post('f_status')) : $base_where;
-
-        $base_where = $this->input->post('f_keywords') ? $base_where + array('name' => $this->input->post('f_keywords')) : $base_where;
-
-
+       	$base_where = $this->input->post('f_keywords') ? $base_where + array('name' => $this->input->post('f_keywords')) : $base_where;
         $all_items = $this->shop_items_m->get_all($base_where);
         $data['all_items'] = $all_items;
 
@@ -170,7 +162,7 @@ class Admin extends Admin_Controller {
         $pagination = create_pagination('/admin/shop/list_items', $total_rows);
 
         //do we need to unset the layout because the request is ajax?
-	$this->is_ajax() ? $this->template->set_layout(FALSE) : '';
+		$this->input->is_ajax_request() ? $this->template->set_layout(FALSE) : '';
 
         $this->template
                         ->title($this->module_details['name'], lang('shop.item_list_title'))
@@ -180,8 +172,6 @@ class Admin extends Admin_Controller {
                         ->set_partial('filters', 'admin/partials/filters')
                         ->build('admin/list_items', $data);
     }
-
-
 
 
     public function delete_item($id=0)
@@ -405,7 +395,8 @@ class Admin extends Admin_Controller {
         $this->data->info_array = $info_array;
 
         // Is AJAX
-        $this->is_ajax() ? $this->template->set_layout(false) : '';
+        		$this->input->is_ajax_request() ? $this->template->set_layout(FALSE) : '';
+        
 
 
         // Render the view
