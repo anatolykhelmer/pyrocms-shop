@@ -7,7 +7,7 @@ class Cart_m extends MY_Model {
 
     private $CI;
 
-    public function  __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->CI = & get_instance();
@@ -21,16 +21,16 @@ class Cart_m extends MY_Model {
                          cart.customer,
                          cart.new as is_new,
                          cart.cancelled as is_cancelled,
-                         users.username as username,
-                         users.email as email,
-                         profiles.first_name as first_name,
-                         profiles.last_name as last_name,
-                         profiles.phone as phone,
-                         profiles.address_line1 as address_line1,
-                         profiles.address_line2 as address_line2,
-                         profiles.address_line3 as address_line3
-                from cart, users, profiles
-                where cart.id = {$this->db->escape($id)} and users.id = cart.customer and profiles.user_id = cart.customer LIMIT 1";
+                         default_users.username as username,
+                         default_users.email as email,
+                         default_profiles.first_name as first_name,
+                         default_profiles.last_name as last_name,
+                         default_profiles.phone as phone,
+                         default_profiles.address_line1 as address_line1,
+                         default_profiles.address_line2 as address_line2,
+                         default_profiles.address_line3 as address_line3
+                from cart, default_users, default_profiles
+                where cart.id = {$this->db->escape($id)} and  default_users.id = cart.customer and default_profiles.user_id = cart.customer LIMIT 1";
         $sql = $this->db->query($query);
         $row = $sql->row();
         return $row;
@@ -71,7 +71,7 @@ class Cart_m extends MY_Model {
     
     public function get_customer_info($cust_id)
     {
-        $query = "select * from users where id={$this->db->escape($cust_id)};";
+        $query = "select * from default_users where id={$this->db->escape($cust_id)};";
         $sql = $this->db->query($query);
         return $sql;
     }

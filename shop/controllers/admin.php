@@ -414,6 +414,7 @@ class Admin extends Admin_Controller {
 
     public function view_order($id=0)
     {   
+       
         $cart = $this->cart_m->get($id);
         $items = $this->cart_m->get_items($id);
 
@@ -433,13 +434,18 @@ class Admin extends Admin_Controller {
         $this->cart_m->set_old($id);
 
         // Render the view
-        $this->lang->load('users/profile');
+        
+        // Is this needed in 1.3.1? Seems to work just fine without it. Looking for language/english/users/profile_lang.php
+        //$this->lang->load('users/profile');
+        
         $this->template
                         ->title($this->module_details['name'])
                         ->append_metadata(css('shop-style.css', 'shop'))
                         ->build('admin/view_order', $this->data);
-    }
+   	}
 
+    
+    
     public function cancel_order($id=0)
     {
         $this->cart_m->cancel_order($id); // need to check if returns false

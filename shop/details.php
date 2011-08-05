@@ -11,11 +11,11 @@ class Module_Shop extends Module {
     {
         return array(
             'name' => array(
-                'en' => 'Shop',
+                'en' => 'Online Store Management',
                 'he' => 'חנות'
             ),
             'description' => array(
-                'en' => 'Easy e-commerce module',
+                'en' => '',
                 'he' => 'מודול להצבת חנות באתר'
             ),
             'frontend' => true,
