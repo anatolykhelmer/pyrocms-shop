@@ -11,11 +11,11 @@ class Module_Shop extends Module {
     {
         return array(
             'name' => array(
-                'en' => 'Shop',
+                'en' => 'Online Store Management',
                 'he' => 'חנות'
             ),
             'description' => array(
-                'en' => 'Easy e-commerce module',
+                'en' => '',
                 'he' => 'מודול להצבת חנות באתר'
             ),
             'frontend' => true,
@@ -50,7 +50,7 @@ class Module_Shop extends Module {
                             PRIMARY KEY (`id`),
                             FOREIGN KEY (`category`) REFERENCES shop_categories(`id`)
                                 ON DELETE CASCADE,
-                            FOREIGN KEY (`gallery`) REFERENCES galleries(`id`)
+                            FOREIGN KEY (`gallery`) REFERENCES default_galleries(`id`)
                                 ON DELETE CASCADE
                             ) engine = InnoDB DEFAULT CHARSET utf8;";
                 $sql = $this->db->query($query);
@@ -82,7 +82,7 @@ class Module_Shop extends Module {
                             `cancelled` bool not null DEFAULT 0,
                             `new` bool not null DEFAULT 1,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`customer`) REFERENCES users(`id`)
+                            FOREIGN KEY (`customer`) REFERENCES default_users(`id`)
                                 ON DELETE CASCADE
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
