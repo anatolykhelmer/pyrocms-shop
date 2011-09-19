@@ -29,7 +29,7 @@ class Module_Shop extends Module {
     {
         $this->db->trans_start();
         
-                $query = "create table if not exists `shop_categories` (
+                $query = "create table if not exists `".$this->db->dbprefix('shop_categories')."` (
                             `id` int auto_increment,
                             `name` varchar(20) not null,
                             primary key (`id`),
@@ -37,7 +37,7 @@ class Module_Shop extends Module {
                             ) engine = InnoDB DEFAULT CHARSET utf8;";
                 $sql = $this->db->query($query);
 
-                $query = "create table if not exists `shop_items` (
+                $query = "create table if not exists `".$this->db->dbprefix('shop_items')."` (
                             `id` int auto_increment,
                             `name` varchar(255) not null,
                             `manufacturer` varchar(100) not null,
@@ -48,64 +48,64 @@ class Module_Shop extends Module {
                             `options` bool DEFAULT 0,
                             `status` bool not null,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`category`) REFERENCES shop_categories(`id`)
+                            FOREIGN KEY (`category`) REFERENCES ".$this->db->dbprefix('shop_categories')."(`id`)
                                 ON DELETE CASCADE,
-                            FOREIGN KEY (`gallery`) REFERENCES default_galleries(`id`)
+                            FOREIGN KEY (`gallery`) REFERENCES ".$this->db->dbprefix('galleries')."(`id`)
                                 ON DELETE CASCADE
                             ) engine = InnoDB DEFAULT CHARSET utf8;";
                 $sql = $this->db->query($query);
 
-                $query = "create table if not exists `shop_item_options` (
+                $query = "create table if not exists `".$this->db->dbprefix('shop_item_options')."` (
                             `id` int auto_increment,
                             `item_id` int not null,
                             `name` varchar(20) not null,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`item_id`) REFERENCES shop_items(`id`)
+                            FOREIGN KEY (`item_id`) REFERENCES ".$this->db->dbprefix('shop_items')."(`id`)
                                 ON DELETE CASCADE
                             ) ENGINE = InnoDB DEFAULT CHARSET utf8;";
                 $sql = $this->db->query($query);
 
-                $query = "create table if not exists `shop_item_option_values` (
+                $query = "create table if not exists `".$this->db->dbprefix('shop_item_option_values')."` (
                             `id` int auto_increment,
                             `option_id` int not null,
                             `value` varchar(20) not null,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`option_id`) REFERENCES shop_item_options(`id`)
+                            FOREIGN KEY (`option_id`) REFERENCES ".$this->db->dbprefix('shop_item_options')."(`id`)
                                 ON DELETE CASCADE
                             ) ENGINE = InnoDB DEFAULT CHARSET utf8;";
                 $sql = $this->db->query($query);
 
-                $query = "create table if not exists `cart` (
+                $query = "create table if not exists `".$this->db->dbprefix('cart')."` (
                             `id` int auto_increment,
                             `customer` smallint unsigned not null,
                             `date` timestamp,
                             `cancelled` bool not null DEFAULT 0,
                             `new` bool not null DEFAULT 1,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`customer`) REFERENCES default_users(`id`)
+                            FOREIGN KEY (`customer`) REFERENCES ".$this->db->dbprefix('users')."(`id`)
                                 ON DELETE CASCADE
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
 
-                $query = "create table if not exists `cart_items` (
+                $query = "create table if not exists `".$this->db->dbprefix('cart_items')."` (
                             `id` int auto_increment,
                             `name` varchar(50) not null,
                             `price` double not null,
                             `qty` smallint unsigned not null,
                             `cart` int not null,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`cart`) REFERENCES cart(`id`)
+                            FOREIGN KEY (`cart`) REFERENCES ".$this->db->dbprefix('cart')."(`id`)
                                 ON DELETE CASCADE
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
 
-                $query = "create table if not exists `cart_item_options` (
+                $query = "create table if not exists `".$this->db->dbprefix('cart_item_options')."` (
                             `id` int auto_increment,
                             `name` varchar(20) not null,
                             `value` varchar(20) not null,
                             `cart_item_id` int not null,
                             PRIMARY KEY (`id`),
-                            FOREIGN KEY (`cart_item_id`) REFERENCES cart_items(`id`)
+                            FOREIGN KEY (`cart_item_id`) REFERENCES ".$this->db->dbprefix('cart_items')."(`id`)
                                 ON DELETE CASCADE
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
@@ -119,13 +119,13 @@ class Module_Shop extends Module {
 
     public function uninstall()
     {
-        $query = "drop table if exists  shop_item_option_values,
-                                        shop_item_options,
-                                        shop_items,
-                                        shop_categories,
-                                        cart_item_options,
-                                        cart_items,
-                                        cart;";
+        $query = "drop table if exists  ".$this->db->dbprefix('shop_item_option_values').",
+                                        ".$this->db->dbprefix('shop_item_options').",
+                                        ".$this->db->dbprefix('shop_items').",
+                                        ".$this->db->dbprefix('shop_categories').",
+                                        ".$this->db->dbprefix('cart_item_options').",
+                                        ".$this->db->dbprefix('cart_items').",
+                                        ".$this->db->dbprefix('cart').";";
         $sql = $this->db->query($query);
         return $sql;
     }
