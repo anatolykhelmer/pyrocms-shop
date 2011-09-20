@@ -35,7 +35,7 @@
         <tbody>
             <?php foreach ($items->result() as $item) {
             echo '<tr><td><img src="' .$thumbs[$item->id]. '" >';
-            echo '</td><td><a href="/shop/view_item/' .$item->id. '">' .$item->name. '</a></td><td>' .$item->manufacturer. '</td><td>' .$item->price. ' &#8362;</td></tr>';
+            echo '</td><td><a href="'.site_url("/shop/view_item/" .$item->id).'">' .$item->name. '</a></td><td>' .$item->manufacturer. '</td><td>' .$item->price. ' &#8362;</td></tr>';
         }
         ?>
         </tbody>
