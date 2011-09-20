@@ -78,7 +78,7 @@ class Shop extends Public_Controller {
 
         
         foreach ($items->result() as $item) {
-            $gallery = $this->galleries_m->get_all_with_filename('g.id', $item->gallery);
+            $gallery = $this->galleries_m->get_all_with_filename('galleries.id', $item->gallery);
 
             $gallery = $gallery[0];
 
@@ -130,7 +130,7 @@ class Shop extends Public_Controller {
         }
 
 
-        $gallery = $this->galleries_m->get_all_with_filename('g.id', $item->gallery);
+        $gallery = $this->galleries_m->get_all_with_filename('galleries.id', $item->gallery);
         $gallery = $gallery[0];
         $gallery_images = $this->gallery_images_m->get_images_by_gallery($item->gallery);
         $data['gallery'] = $gallery;
