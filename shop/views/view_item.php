@@ -9,7 +9,7 @@
     <?php endforeach; ?>
     
     <br clear="all">
-    <a href="/galleries/<?php echo $gallery->slug; ?>" >
+    <a href="<?php echo site_url();?>/galleries/<?php echo $gallery->slug; ?>" >
         <?php echo lang('shop.item_view_gallery_title'); ?>
     </a>
 </div>
