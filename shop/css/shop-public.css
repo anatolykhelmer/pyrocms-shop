@@ -1,0 +1,124 @@
+.shop_ul_item_list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.shop_ul_item_list li{
+    list-style: none; float:left; clear:right; width:170px; height:180px; display:block;
+    padding: 2px; margin: 2px 4px 2px 4px; text-align:center;
+}
+
+/*
+.shop_ul_item_list li img{
+    float:left; clear:right; display:block;
+    margin: 2px 4px 2px 4px; 
+}
+*/
+
+.shop_ul_cat_list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.shop_ul_cat_list li{
+    list-style: none; float:left; clear:right; width:250px; 
+    padding: 2px; margin: 2px;
+}
+
+.shop_item_thumb_desc{
+    width:150px; height:130px; text-align:center;
+}
+
+.shop_thumb_info{
+    font-size:11px;
+}
+
+.item_detail_name{
+    font-size:22px; margin:0px;
+}
+
+.clear{  
+    clear: both;  
+    height: 0;  
+    visibility: hidden;  
+    display: block;  
+}  
+
+/******* MENU *******/  
+#container_tab{  
+    margin: 1em auto;  
+}  
+#container_tab ul{  
+    list-style: none;  
+    list-style-position: outside;  
+}  
+#container_tab ul.tab_menu li{  
+    float: left;  
+    margin-right: 5px;  
+    margin-bottom: -1px;  
+}  
+#container_tab ul.tab_menu li{  
+    font-weight: 700;  
+    display: block;  
+    padding: 5px 10px 5px 10px;  
+    background: #efefef;  
+    margin-bottom: -1px;  
+    border: 1px solid #d0ccc9;  
+    border-width: 1px 1px 1px 1px;  
+    position: relative;  
+    color: #898989;  
+    cursor: pointer;  
+}  
+#container_tab ul.tab_menu li.active{  
+    background: #fff;  
+    top: 1px;  
+    border-bottom: 0;  
+    color: #5f95ef;  
+}  
+/******* /MENU *******/  
+/******* CONTENT *******/  
+.tab_content div.content{  
+    margin: 0pt auto;  
+    background: #efefef;  
+    background: #fff;  
+    border: 1px solid #d0ccc9;  
+    text-align: left;  
+    padding: 10px;  
+    padding-bottom: 20px;  
+    font-size: 11px;  
+}  
+.tab_content div.content h4{  
+    line-height: 1em;  
+    vertical-align: middle;  
+    padding: 5px 10px 18px 52px;  
+    font-size: 16px;  
+}  
+
+.tab_content div.content p.tcleft{  
+    vertical-align: middle; display:block; float:left; clear:right; width: 38%;
+    padding: 2px 0px 2px 10px; font-size: 12px;  
+}  
+
+.tab_content div.content p.tcright{  
+    vertical-align: middle; display:block; float:right; clear:right; width: 58%;
+    padding: 2px 0px 2px 0px; font-size: 12px;    
+}  
+
+.tab_content div.content p.tcfull{  
+    vertical-align: middle; display:block; float:left; clear:both; width: 100%;
+    padding: 2px 0px 2px 0px; font-size: 12px;    
+}  
+
+.tab_content div.notfirst {  
+    display: none;
+}  
+
+.tbl_rowcenter td{  
+    vertical-align: middle; text-align:center;
+}  
+
+.tbl_vcenter{  
+    vertical-align: middle;
+}  
+/******* /CONTENT *******/  
+
