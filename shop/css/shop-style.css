@@ -22,3 +22,43 @@ ol.option_values {
 #customer_info dl dt {
     font-weight: bolder;
 }
+
+.shop_thumb_img {
+    float: left; clear:right;
+    width: 150px; background-color:#d8d8d8;
+    height: 160px; overflow:hidden;
+    margin: 2px 2px 2px 5px; border:2px solid #BBBBBB;
+}
+
+.shop_thumb_btn {
+    position:absolute; float: left; text-align:center; cursor:pointer;
+    width: 140px; background-color:#E7E7E7;
+    height: 20px; color:#4D4D4D;
+    margin: 120px 0px; padding: 0px 5px 0px 5px;
+}
+.shop_thumb_btn:hover {
+    background-color:#EDEDED; color:#003B51;
+}
+
+.shop_defthumb_btn {
+    position:absolute; float: left; text-align:center; cursor:pointer;
+    width: 140px; background-color:#E7E7E7;
+    height: 19px; color:#4D4D4D; border-top:1px solid #BBBBBB;
+    margin: 140px 0px; padding: 0px 5px 0px 5px;
+}
+.shop_defthumb_btn:hover {
+    background-color:#EDEDED; color:#003B51;
+}
+
+#f1_upload_process{
+    display:none;
+}
+
+.button{
+    margin-top:10px;
+    border:1px solid #BBBBBB; cursor:pointer; width:180px; background-color:#E7E7E7; clear:right;padding: 8px 0px 0px 100px;
+    -moz-border-radius: 5px;
+}
+.button:hover {
+    background-color:#EDEDED; color:#003B51;
+}

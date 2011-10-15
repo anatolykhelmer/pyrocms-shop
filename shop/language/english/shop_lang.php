@@ -34,11 +34,15 @@ $lang['shop.item_image_label']      = 'Image';
 $lang['shop.item_no_items']         = 'No Items';
 $lang['shop.item_edit_label']       = 'Edit';
 $lang['shop.item_delete_label']     = 'Delete';
+$lang['shop.item_date_label']       = 'Post Date';
+$lang['shop.item_hour_label']       = 'Hour';
+$lang['shop.item_minute_label']     = 'Minute';
 $lang['shop.item_content_title']    = 'Item';
 $lang['shop.item_options_title']    = 'Options';
 $lang['shop.item_option_name_label'] = 'Name';
 $lang['shop.item_option_value_label'] = 'Value';
 $lang['shop.item_manufacturer_label'] = 'Manufacturer';
+$lang['shop.item_list_recent']      = 'New Product';
 
 $lang['shop.item_option_value_add_label'] = 'Add Value Textbox';
 $lang['shop.item_option_value_delete_label'] = 'Delete Value Textbox';
@@ -69,19 +73,29 @@ $lang['shop.orders_list_title']         = 'Orders';
 $lang['shop.order_canceled_label']      = 'Canceled';
 $lang['shop.order_live_label']          = 'Live';
 $lang['shop.order_cancel_label']        = 'Cancel Order';
+$lang['shop.list_options_label']        = 'Options';
 
 
 // messages
 $lang['shop.item_no_select_error']      = 'Error: Nothing Selected - You need to select items first!';
 $lang['shop.item_mass_delete_error']    = 'Error occurred while trying to delete item "%s".';
 $lang['shop.item_already_exist_error']  = 'An item with the name "%s" already exists.';
-$lang['shop.item_add_success']          = 'Item "%s" was successfuly created';
+$lang['shop.item_add_success']          = 'Item "%s" was successfully created';
+$lang['shop.item_save_success']         = 'Item "%s" was successfully saved';
+$lang['shop.item_save_error']           = 'Error: Item "%s" was not saved';
+
+$lang['shop.upload_success']            = 'Upload file "%s" was successfully';
+$lang['shop.upload_error']              = 'Upload file "%s" was failed';
+$lang['shop.upload_save_error']         = 'Saving upload file "%s" was failed';
 
 $lang['shop.cat_no_select_error']       = 'Error: Nothing Selected - You need to select categories first!';
 $lang['shop.cat_mass_delete_error']     = 'Error occured while trying to delete category "%s"';
 $lang['shop.cat_already_exist_error']   = 'A category with the name "%s" already exists.';
-$lang['shop.cat_add_success']           = 'Category "%s" was successfuly created.';
+$lang['shop.cat_add_success']           = 'Category "%s" was successfully created.';
 
-$lang['shop.item_mass_delete_success']  = '%s items out of %s successfuly deleted.';
-$lang['shop.cat_mass_delete_success']   = '%s categories out of %s successfuly deleted.';
+$lang['shop.item_mass_delete_success']  = '%s items out of %s successfully deleted.';
+$lang['shop.cat_mass_delete_success']   = '%s categories out of %s successfully deleted.';
 
+$lang['shop.action_unauthorized']   = 'You unauthorized to access this action.';
+
+// parameter

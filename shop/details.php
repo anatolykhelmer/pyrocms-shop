@@ -1,26 +1,32 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /**
- * @author Anatoly Khelmer
+ * @Modified by Eko Muhammad Isa from
+ * @Shopping cart Anatoly Khelmer
  */
 
 class Module_Shop extends Module {
 
-    public $version = "0.6";
+    public $version = "0.7";
 
     public function info()
     {
         return array(
             'name' => array(
-                'en' => 'Online Store Management',
+                'en' => 'Shop',
                 'he' => 'חנות'
             ),
             'description' => array(
-                'en' => '',
+                'en' => 'Easy e-commerce module',
                 'he' => 'מודול להצבת חנות באתר'
             ),
             'frontend' => true,
             'backend'  => true,
             'menu'     => 'content',
+            
+            
+            'roles' => array(
+				'show_product', 'add_product', 'edit_product', 'delete_product', 'setting_options'
+			)
         );
     }
 
@@ -43,14 +49,13 @@ class Module_Shop extends Module {
                             `manufacturer` varchar(100) not null,
                             `category` int not null,
                             `gallery` int,
-                            `description` varchar(255),
+                            `description` text,
                             `price` double not null,
                             `options` bool DEFAULT 0,
                             `status` bool not null,
+                            `postdate` DATETIME NULL
                             PRIMARY KEY (`id`),
                             FOREIGN KEY (`category`) REFERENCES ".$this->db->dbprefix('shop_categories')."(`id`)
-                                ON DELETE CASCADE,
-                            FOREIGN KEY (`gallery`) REFERENCES ".$this->db->dbprefix('galleries')."(`id`)
                                 ON DELETE CASCADE
                             ) engine = InnoDB DEFAULT CHARSET utf8;";
                 $sql = $this->db->query($query);
@@ -110,6 +115,37 @@ class Module_Shop extends Module {
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
 
+                $query = "CREATE TABLE `".$this->db->dbprefix('shop_images')."` (
+                            `id_shop_images` INT( 5 ) NOT NULL AUTO_INCREMENT,
+                            `id_item` INT( 11 ) NOT NULL ,
+                            `image_name` VARCHAR( 150 ) NULL ,
+                            `image_originalname` VARCHAR( 150 ) NULL ,
+                            `is_default` BOOLEAN NULL DEFAULT '0',
+                            `publish` TINYINT( 1 ) NULL DEFAULT '0',
+                            PRIMARY KEY ( `id_shop_images` )
+                            ) ENGINE = InnoDB CHARSET utf8;";
+                $sql = $this->db->query($query);
+                
+                $query = "CREATE TABLE `".$this->db->dbprefix('shop_options')."` (
+                            `id_shop_option` INT( 5 ) NOT NULL AUTO_INCREMENT,
+                            `option_name` VARCHAR( 150 ) NULL ,
+                            `option_value` VARCHAR( 150 ) NULL ,
+                            PRIMARY KEY ( `id_shop_option` )
+                            ) ENGINE = InnoDB CHARSET utf8;";
+                $sql = $this->db->query($query);
+                
+                $path = UPLOAD_PATH . "shop/";
+                if (!is_file($path) && !is_dir($path)) {
+                    mkdir($path); //create the directory
+                    chmod($path, 0777); //make it writable
+                }
+                
+                $path = UPLOAD_PATH . "shop/thumb/";
+                if (!is_file($path) && !is_dir($path)) {
+                    mkdir($path); //create the directory
+                    chmod($path, 0777); //make it writable
+                }
+                
         $this->db->trans_complete();
 
         if($this->db->trans_status() === false) return FALSE;   
@@ -122,6 +158,8 @@ class Module_Shop extends Module {
         $query = "drop table if exists  ".$this->db->dbprefix('shop_item_option_values').",
                                         ".$this->db->dbprefix('shop_item_options').",
                                         ".$this->db->dbprefix('shop_items').",
+                                        ".$this->db->dbprefix('shop_images').",
+                                        ".$this->db->dbprefix('shop_options').",
                                         ".$this->db->dbprefix('shop_categories').",
                                         ".$this->db->dbprefix('cart_item_options').",
                                         ".$this->db->dbprefix('cart_items').",

@@ -7,7 +7,7 @@ class Cart_m extends MY_Model {
 
     private $CI;
 
-    public function __construct()
+    public function  __construct()
     {
         parent::__construct();
         $this->CI = & get_instance();

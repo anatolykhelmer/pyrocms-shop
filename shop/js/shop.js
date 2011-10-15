@@ -60,9 +60,283 @@ function delete_value_textbox()
     });
 }
 
+var editor1;
+
+function process_post(){
+	
+	jQuery('textarea.wysiwyg-unique').ckeditor(function(){
+	  this.destroy();
+	});
+				
+    form = jQuery('form.crud');
+    item_id = jQuery('input[name="item_id"]', form).val();
+    tab_active = jQuery('#tab_active').val();
+    tab_action = jQuery('input[name="tab_act"]').val();
+    dataString = form.serialize();
+    url_post = SITE_URL + 'admin/shop/ax_save/'+tab_active+'/'+tab_action;
+    //alert(url_post);
+    
+    jQuery.ajax({
+	url: url_post,
+	type: "POST",
+	data: dataString,
+	success: function(dataResult){
+		if(dataResult.length > 0) {
+            //alert(dataResult);
+			jQuery('#item-data1').html(dataResult);
+			//gowysiwyg();
+			setTimeout(function(){
+				
+				jQuery('textarea.wysiwyg-unique').ckeditor({
+					toolbar: [
+						 ['TextColor', 'FontSize', '-', 'Cut','Copy','Paste','PasteFromWord'],['-', 'Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'],
+						 ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+					  ],
+					width: '99%',
+					height: 140,
+					dialog_backgroundCoverColor: '#000000'
+				});
+			}, 2000);
+			jQuery('#ax_progress').hide(2);
+			jQuery('#ax_button').show(4);
+			
+		} else {
+			alert('Failed to open new item.');
+		}
+	}
+    
+	
+	
+	});
+}
+
+
+function init_tabs(vthis)
+{
+	var modeform;
+	var page_open = jQuery('#page_edited').val();
+	page_open = parseInt(page_open);
+	if(page_open > 0){
+		modeform = 'edit';
+	}else{
+		modeform = 'add';
+		page_open = 0;
+	}
+	
+	var titleTabs = jQuery(vthis).attr('title');
+	jQuery('#tab_active').val(titleTabs);
+	if(titleTabs == 'Image'){
+		init_picture();
+	}
+}
+
+
+function init_picture()
+{
+	var modeform;
+	
+	var item_id = jQuery('input[name="item_id"]').val();
+	if(parseInt(item_id) > 0){
+
+	jQuery.ajax({
+	url: SITE_URL + 'admin/shop/ax_image/' + item_id,
+	type: "GET",
+	success: function(data) {
+		if(data.length > 0) {
+			jQuery('#item-image').html(data);
+            setTimeout(function(){
+                init_list_img();
+            }, 2000);
+		} else {
+			jQuery('#item-image').html('Failed to open \'Item\' images.');
+		}
+	}
+	});
+
+	}else{
+		jQuery('#item-image').html('You must save \'Item\' data before uploading images.');
+	}
+}
+
+function init_list_img()
+{
+	var item_id = jQuery('input[name="item_id"]').val();
+	if(parseInt(item_id) > 0){
+    
+	jQuery.ajax({
+	url: SITE_URL + 'admin/shop/ax_listimage/' + item_id ,
+	type: "GET",
+	success: function(data) {
+		if(data.length > 0) {
+			jQuery('#list_item_img').html(data);
+		} else {
+			jQuery('#list_item_img').html('Failed to open \'Item\' images.');
+		}
+	}
+	});
+
+	}else{
+		jQuery('#list_item_img').html('You must save \'Item\' data before uploading images.');
+	}
+}
+
+function del_img(id_del)
+{
+	jQuery.ajax({
+	url: SITE_URL + 'admin/shop/ax_delimage/' + id_del ,
+	type: "GET",
+	success: function(data) {
+        //alert(data);
+		init_list_img();
+	}
+	});
+
+}
+
+function set_default(id_default)
+{
+	jQuery.ajax({
+	url: SITE_URL + 'admin/shop/ax_setdefault/' + id_default ,
+	type: "GET",
+	success: function() {
+		init_list_img();
+	}
+	});
+
+}
+
+function init_form()
+{
+
+	var modeform;
+	var page_open = jQuery('#page_edited').val();
+	page_open = parseInt(page_open);
+	if(page_open > 0){
+		modeform = 'edit';
+	}else{
+		modeform = 'add';
+		page_open = 0;
+	}
+	
+	jQuery('#tab_active').val('Data');
+	
+    jQuery.ajax({
+	url: SITE_URL + 'admin/shop/ax_read/' + modeform + '/' + page_open,
+	type: "GET",
+	
+	success: function(data) {
+		if(data.length > 0) {
+			jQuery('#item-data1').html(data);
+			setTimeout(function(){
+				jQuery('textarea.wysiwyg-unique').ckeditor({
+					toolbar: [
+						 ['TextColor', 'FontSize', '-', 'Cut','Copy','Paste','PasteFromWord'],['-', 'Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink'],
+						 ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+					  ],
+					width: '99%',
+					height: 140
+				});
+			}, 2000);
+			
+			
+		} else {
+			alert('Failed to open new item.');
+		}
+	}
+	
+	
+	});
+
+
+	
+    form = jQuery('form.crud');
+	jQuery('input[name="data1post"]', form).live('click', function(){
+        
+        jQuery('#ax_progress').show(4);
+        jQuery('#ax_button').hide(2);
+        process_post();
+    });
+    
+    
+}
+
 jQuery(function(){
     add_value_textbox();
     add_option();
     delete_option();
     delete_value_textbox();
+    init_form();
+    
+    
+    
+    jQuery('img.cb_shop').livequery(function() {
+        jQuery(this).each(function(){
+            var src_load = this.src.replace('thumb/', '');
+            var anchor = jQuery('<a/>').attr({'href': src_load}).colorbox(); 
+            jQuery(this).wrap(anchor);
+        });
+    });
+    
+    jQuery('div.shop_thumb_btn').livequery('click',function() {
+        
+        var r=confirm("Click OK to delete");
+        if (r==true)
+        {
+            var id_del = jQuery(this).attr('title');
+            del_img(id_del);
+        }
+    });
+    
+    jQuery('div.shop_defthumb_btn').livequery('click',function() {
+        
+        var id_default= jQuery(this).attr('title');
+        if(id_default.length > 0){
+            var r=confirm("Click OK to set this images as default");
+            if (r==true)
+            {
+                    set_default(id_default);
+            }
+        }
+    });
+    
+    jQuery("#datepost").livequery(function() {
+		jQuery( "#datepost" ).datepicker({ dateFormat: 'yy-mm-dd'});
+        //jQuery("a.ui-datepicker-prev").hide();
+	});
 });
+
+function startUpload(){
+      document.getElementById('f1_upload_process').style.display = 'block';
+      document.getElementById('f1_upload_form').style.display = 'none';
+      
+      var iframe = document.getElementById('upload_target');
+        if (navigator.userAgent.indexOf("MSIE") > -1 && !window.opera){
+            iframe.onreadystatechange = function(){
+                if (iframe.readyState == "complete"){
+                    stopUpload();
+                }
+            };
+        } else {
+            iframe.onload = function(){
+                stopUpload();
+            };
+        }
+      return true;
+}
+
+function stopUpload(){
+
+      var ret = jQuery("#upload_target").contents().find('body').html();
+      //alert(ret);
+      var data = JSON.parse(ret);
+      document.getElementById('upload_status_msg').innerHTML = unescape(data.message);
+      //document.getElementById('upload_status_msg').innerHTML = unescape(data.debug);
+
+      document.getElementById('f1_upload_process').style.display = 'none';
+      document.getElementById('f1_upload_form').style.display = 'block';
+      
+      init_list_img();
+      return true;   
+}
+
+

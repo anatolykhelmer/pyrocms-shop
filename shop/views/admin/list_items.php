@@ -7,12 +7,13 @@
                 <tr>
                     <th width="20"><?php echo form_checkbox(array('name' => 'action_to_all', 'class' => 'check-all')); ?></th>
                     <th><?php echo lang('shop.item_title_label'); ?></th>
+                    <th><?php echo lang('shop.item_date_label'); ?></th>
                     <th width="200" class="align-center"><?php echo lang('shop.cat_actions_label'); ?></th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td colspan="3">
+                    <td colspan="4">
                         <div class="inner"><?php $this->load->view('admin/partials/pagination'); ?></div>
                     </td>
                 </tr>
@@ -22,6 +23,7 @@
                     <tr>
                         <td><?php echo form_checkbox('action_to_all[]', $item->id); ?></td>
                         <td><?php echo $item->name; ?></td>
+                        <td width="150px"><?php echo date('F d, Y - H:i', strtotime($item->postdate)); ?></td>
                         <td class="aling-center buttons buttons-small">
                             <?php echo anchor('admin/shop/edit_item/' .$item->id, lang('shop.item_edit_label'), 'class="button edit"'); ?>
                             <?php echo anchor('admin/shop/delete_item/' .$item->id, lang('shop.item_delete_label'), 'class="confirm button delete"'); ?>
