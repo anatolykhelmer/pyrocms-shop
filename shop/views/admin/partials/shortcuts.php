@@ -7,7 +7,7 @@
         <li><?php echo anchor('/admin/shop/create_item', lang('shop.new_item_label'), 'class="add"') ?></li>
         <li><?php echo anchor('/admin/shop/list_items', lang('shop.list_items_label')); ?></li>
         <?php if($auth->setting_options == 1){ ?>
-        <li><?php echo anchor('/admin/shop/options', lang('shop.list_options_label')); ?></li>
+        <li><?php echo anchor('/admin/shop/setting', lang('shop.setting_title')); ?></li>
         <?php } ?>
 	</ul>
 	<br class="clear-both" />
