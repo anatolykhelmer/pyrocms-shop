@@ -1,7 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 /**
- * @Modified by Eko Muhammad Isa from
- * @Shopping cart Anatoly Khelmer
+ * @Modified by Eko Muhammad Isa from Shopping cart Anatoly Khelmer
  */
 
 class Module_Shop extends Module {
@@ -126,24 +125,24 @@ class Module_Shop extends Module {
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
                 
-                $query = "CREATE TABLE `".$this->db->dbprefix('shop_options')."` (
-                            `id_shop_option` INT( 5 ) NOT NULL AUTO_INCREMENT,
-                            `option_name` VARCHAR( 150 ) NULL ,
-                            `option_value` VARCHAR( 150 ) NULL ,
+                $query = "CREATE TABLE `".$this->db->dbprefix('shop_setting')."` (
+                            `id_shop_setting` INT( 5 ) NOT NULL AUTO_INCREMENT,
+                            `setting_name` VARCHAR( 150 ) NULL ,
+                            `setting_value` TEXT NULL ,
                             PRIMARY KEY ( `id_shop_option` )
                             ) ENGINE = InnoDB CHARSET utf8;";
                 $sql = $this->db->query($query);
                 
                 $path = UPLOAD_PATH . "shop/";
                 if (!is_file($path) && !is_dir($path)) {
-                    mkdir($path); //create the directory
-                    chmod($path, 0777); //make it writable
+                    @mkdir($path, 0777, TRUE); //create the directory
+                    @chmod($path, 0777); //make it writable
                 }
                 
                 $path = UPLOAD_PATH . "shop/thumb/";
                 if (!is_file($path) && !is_dir($path)) {
-                    mkdir($path); //create the directory
-                    chmod($path, 0777); //make it writable
+                    @mkdir($path, 0777, TRUE); //create the directory
+                    @chmod($path, 0777); //make it writable
                 }
                 
         $this->db->trans_complete();
