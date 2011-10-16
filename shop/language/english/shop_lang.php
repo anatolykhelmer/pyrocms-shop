@@ -74,7 +74,10 @@ $lang['shop.order_canceled_label']      = 'Canceled';
 $lang['shop.order_live_label']          = 'Live';
 $lang['shop.order_cancel_label']        = 'Cancel Order';
 $lang['shop.list_options_label']        = 'Options';
-
+$lang['shop.setting_title']             = 'Setting';
+$lang['shop.setting_payment_info']      = 'Payment Info';
+$lang['shop.show_label']                = 'Show';
+$lang['shop.hide_label']                = 'Hide';
 
 // messages
 $lang['shop.item_no_select_error']      = 'Error: Nothing Selected - You need to select items first!';
@@ -87,6 +90,9 @@ $lang['shop.item_save_error']           = 'Error: Item "%s" was not saved';
 $lang['shop.upload_success']            = 'Upload file "%s" was successfully';
 $lang['shop.upload_error']              = 'Upload file "%s" was failed';
 $lang['shop.upload_save_error']         = 'Saving upload file "%s" was failed';
+
+$lang['shop.setting_save_info']         = 'Setting saved successfully.';
+$lang['shop.setting_save_error']        = 'Some setting fail to save.';
 
 $lang['shop.cat_no_select_error']       = 'Error: Nothing Selected - You need to select categories first!';
 $lang['shop.cat_mass_delete_error']     = 'Error occured while trying to delete category "%s"';

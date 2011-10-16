@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * @author Anatoly Khelmer
+ * @Modified by Eko Muhammad Isa from Shopping cart Anatoly Khelmer
  */
 
 class Admin extends Admin_Controller {
@@ -124,10 +124,6 @@ class Admin extends Admin_Controller {
                 ->set('page_edited', '')
                 ->build('admin/create_item', '');
     }
-
-
-
-
 
     public function list_items()
     {
@@ -719,4 +715,68 @@ class Admin extends Admin_Controller {
                         ->build('admin/partials/ax_item_process', $this->data);
         
 	}
+    
+    public function setting()
+    {
+        // 'show_product', 'add_product', 'edit_product', 'delete_product', 'setting_options'
+        if($this->auth->setting_options == 0){
+            $this->template
+                ->title($this->module_details['name'], lang('shop.setting_title'))
+                ->build('admin/unauthorized', '');
+            return;
+        }
+        $this->template
+                ->title($this->module_details['name'], lang('shop.setting_title'))
+                ->append_metadata($this->load->view('fragments/wysiwyg', $this->data, TRUE))
+                ->append_metadata(css('shop-style.css', 'shop'))
+                ->append_metadata(js('shop_setting.js', 'shop'))
+                ->set('tab_active', 'payinfo')
+                ->build('admin/setting', '');
+    }
+
+    public function ax_settingread($mode = 'payinfo', $id = 0)
+	{
+		if($mode == 'payinfo'){
+            $this->load->model('shop_setting_m');
+			$dtload['payinfo_live'] = $this->shop_setting_m->get_setting('PAYINFO_LIVE');
+			$dtload['payinfo_content'] = $this->shop_setting_m->get_setting('PAYINFO_CONTENT');
+			
+			$this->template
+                        ->set_layout(FALSE)
+                        ->append_metadata(css('shop-style.css', 'shop'))
+                        ->append_metadata(js('shop_setting.js', 'shop'))
+                        //->set('gal', '')
+                        ->build('admin/partials/ax_setting_pinfo', $dtload);
+
+		}
+		
+	}
+    
+    public function ax_settingsave($mode = 'payinfo')
+	{
+		if($mode == 'payinfo'){
+            $this->load->model('shop_setting_m');
+			$save_1 = $this->shop_setting_m->set_setting('PAYINFO_LIVE', $this->input->post('pistatus'));
+			$save_2 = $this->shop_setting_m->set_setting('PAYINFO_CONTENT', $this->input->post('picontent'));
+			
+            if($save_1 == true and $save_2 == true){
+                $process_msg = "<div class=\"closable notification success\">".lang('shop.setting_save_info')."</div>";
+            }else{
+                $process_msg = "<div class=\"closable notification error\">".lang('shop.setting_save_error')."</div>";
+            }
+            
+            $dtload['payinfo_live'] = $this->shop_setting_m->get_setting('PAYINFO_LIVE');
+			$dtload['payinfo_content'] = $this->shop_setting_m->get_setting('PAYINFO_CONTENT');
+            
+			$this->template
+                        ->set_layout(FALSE)
+                        ->append_metadata(css('shop-style.css', 'shop'))
+                        ->append_metadata(js('shop_setting.js', 'shop'))
+                        ->set('process_msg', $process_msg)
+                        ->build('admin/partials/ax_setting_pinfo', $dtload);
+
+		}
+		
+	}
+    
 }

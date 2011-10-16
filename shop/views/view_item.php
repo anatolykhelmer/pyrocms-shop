@@ -17,6 +17,9 @@
         <ul class="tab_menu">  
             <li id="first" class="active">Product Description</li>  
             <li id="prod_images">Images</li>  
+            <?php if(@$payinfo_live == 1){ ?>
+            <li id="prod_pinfo">Payment Info</li>  
+            <?php } ?>
         </ul>  
         <span class="clear"></span>  
         <div class="tab_content">  
@@ -46,5 +49,12 @@
 <?php endforeach; ?>
                 </div>
             </div>  
+            <?php if(@$payinfo_live == 1){ ?>
+            <div class="content notfirst prod_pinfo">  
+                <h4>Payment Info</h4>  
+                <p class="tcfull"><?php echo @$payinfo_content; ?></p>
+                
+            </div>  
+            <?php } ?>
         </div>  
     </div>  

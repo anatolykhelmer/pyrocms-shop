@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * @author Anatoly Khelmer
+  * @Modified by Eko Muhammad Isa from Shopping cart Anatoly Khelmer
  */
 
 class Shop extends Public_Controller {
@@ -104,6 +104,15 @@ class Shop extends Public_Controller {
             $data['img'] = array();
         }else{
             $data['img'] = $img;
+        }
+        
+        $this->load->model('shop_setting_m');
+        $data['payinfo_live'] = $this->shop_setting_m->get_setting('PAYINFO_LIVE');
+        if($data['payinfo_live'] == 1){
+            $data['payinfo_content'] = $this->shop_setting_m->get_setting('PAYINFO_CONTENT');
+        }else{
+            $data['payinfo_content'] = '';
+            $data['payinfo_live'] = 0;
         }
 
         //$gallery = $this->galleries_m->get_all_with_filename('galleries.id', $item->gallery);

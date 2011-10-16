@@ -1,5 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @author Eko Muhammad Isa
+ */
+ 
 class Shop_permission_m extends CI_Model
 {
 	private $_groups = array();

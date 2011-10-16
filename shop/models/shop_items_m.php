@@ -2,6 +2,7 @@
 
 /**
  * @author Anatoly Khelmer
+    modified by Eko Muhammad Isa
  */
 class Shop_Items_m extends MY_Model {
 
