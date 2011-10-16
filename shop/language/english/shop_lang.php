@@ -91,8 +91,9 @@ $lang['shop.upload_success']            = 'Upload file "%s" was successfully';
 $lang['shop.upload_error']              = 'Upload file "%s" was failed';
 $lang['shop.upload_save_error']         = 'Saving upload file "%s" was failed';
 
-$lang['shop.setting_save_info']         = 'Setting saved successfully.';
-$lang['shop.setting_save_error']        = 'Some setting fail to save.';
+$lang['shop.setting_save_success']         = 'Setting saved successfully.';
+$lang['shop.setting_save_info']        = 'Changed setting save successfully.';
+$lang['shop.setting_save_error']        = 'Failed save setting.';
 
 $lang['shop.cat_no_select_error']       = 'Error: Nothing Selected - You need to select categories first!';
 $lang['shop.cat_mass_delete_error']     = 'Error occured while trying to delete category "%s"';

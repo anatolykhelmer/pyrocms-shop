@@ -760,9 +760,11 @@ class Admin extends Admin_Controller {
 			$save_2 = $this->shop_setting_m->set_setting('PAYINFO_CONTENT', $this->input->post('picontent'));
 			
             if($save_1 == true and $save_2 == true){
-                $process_msg = "<div class=\"closable notification success\">".lang('shop.setting_save_info')."</div>";
-            }else{
+                $process_msg = "<div class=\"closable notification success\">".lang('shop.setting_save_success')."</div>";
+            }elseif($save_1 == false and $save_2 == false){
                 $process_msg = "<div class=\"closable notification error\">".lang('shop.setting_save_error')."</div>";
+            }else{
+                $process_msg = "<div class=\"closable notification information\">".lang('shop.setting_save_info')."</div>";
             }
             
             $dtload['payinfo_live'] = $this->shop_setting_m->get_setting('PAYINFO_LIVE');
