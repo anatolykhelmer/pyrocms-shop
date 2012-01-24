@@ -43,20 +43,19 @@ class Module_Shop extends Module {
                 $sql = $this->db->query($query);
 
                 $query = "create table if not exists `".$this->db->dbprefix('shop_items')."` (
-                            `id` int auto_increment,
-                            `name` varchar(255) not null,
-                            `manufacturer` varchar(100) not null,
-                            `category` int not null,
-                            `gallery` int,
-                            `description` text,
-                            `price` double not null,
-                            `options` bool DEFAULT 0,
-                            `status` bool not null,
-                            `postdate` DATETIME NULL
-                            PRIMARY KEY (`id`),
-                            FOREIGN KEY (`category`) REFERENCES ".$this->db->dbprefix('shop_categories')."(`id`)
-                                ON DELETE CASCADE
-                            ) engine = InnoDB DEFAULT CHARSET utf8;";
+						  `id` int(11) NOT NULL AUTO_INCREMENT,
+						  `name` varchar(255) NOT NULL,
+						  `manufacturer` varchar(100) NOT NULL,
+						  `category` int(11) NOT NULL,
+						  `gallery` int(11) DEFAULT NULL,
+						  `description` text,
+						  `price` double NOT NULL,
+						  `options` tinyint(1) DEFAULT '0',
+						  `status` tinyint(1) NOT NULL,
+						  `postdate` datetime DEFAULT NULL,
+						  PRIMARY KEY (`id`),
+						  FOREIGN KEY (`category`) REFERENCES `".$this->db->dbprefix('shop_categories')."` (`id`) ON DELETE CASCADE
+						) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
                 $sql = $this->db->query($query);
 
                 $query = "create table if not exists `".$this->db->dbprefix('shop_item_options')."` (
