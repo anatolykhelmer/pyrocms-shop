@@ -12,14 +12,14 @@ class Shop_cat_m extends MY_Model {
      */
     public function get_all()
     {
-        $query = "select * from shop_categories;";
+        $query = "select * from ".$this->db->dbprefix('shop_categories').";";
         $sql = $this->db->query($query);
         return $sql;
     }
 
     public function get($id)
     {
-        $query = "select * from `shop_categories` where id={$this->db->escape($id)};";
+        $query = "select * from `".$this->db->dbprefix('shop_categories')."` where id={$this->db->escape($id)};";
         $sql = $this->db->query($query);
         $row = $sql->row();
         return $row;
@@ -32,7 +32,7 @@ class Shop_cat_m extends MY_Model {
      */
     public function get_name( $id )
     {
-        $query = "select name from shop_categories where id={$this->db->escape($id)};";
+        $query = "select name from ".$this->db->dbprefix('shop_categories')." where id={$this->db->escape($id)};";
         $sql = $this->db->query($query);
         if ($sql->num_rows() == 0) return FALSE;
         $row = $sql->row();
@@ -47,28 +47,28 @@ class Shop_cat_m extends MY_Model {
      */
     public function create( $name )
     {
-        $query = "insert into shop_categories (name) values ({$this->db->escape($name)});";
+        $query = "insert into ".$this->db->dbprefix('shop_categories')." (name) values ({$this->db->escape($name)});";
         $sql = $this->db->query($query);
         return $sql;
     }
 
     public function edit( $name, $id )
     {
-        $query = "update `shop_categories` set name={$this->db->escape($name)} where id={$this->db->escape($id)};";
+        $query = "update `".$this->db->dbprefix('shop_categories')."` set name={$this->db->escape($name)} where id={$this->db->escape($id)};";
         $sql = $this->db->query($query);
         return $sql;
     }
 
     public function delete( $id )
     {
-        $query = "delete from `shop_categories` where id={$this->db->escape($id)};";
+        $query = "delete from `".$this->db->dbprefix('shop_categories')."` where id={$this->db->escape($id)};";
         $sql = $this->db->query($query);
         return $sql;
     }
 
     public function check_name( $name )
     {
-        $query = "select * from `shop_categories` where name={$this->db->escape($name)};";
+        $query = "select * from `".$this->db->dbprefix('shop_categories')."` where name={$this->db->escape($name)};";
         $sql = $this->db->query($query);
         if ($sql->num_rows()) return TRUE;
         else return false;

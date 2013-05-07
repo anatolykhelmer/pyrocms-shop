@@ -23,7 +23,7 @@
 
                 <li>
                     <label for="manufacturer"><? echo lang('shop.item_manufacturer_label'); ?></label>
-                    <?php echo form_input('manufacturer', $post->manufacturer, 'maxlength="10"'); ?>
+                    <?php echo form_input('manufacturer', $post->manufacturer, 'maxlength="100"'); ?>
                     <span class="required-icon tooltip"><?php echo lang('required_label'); ?></span>
                 </li>
 
@@ -37,6 +37,7 @@
                     <label for="gallery"><?php echo lang('shop.item_gallery_label'); ?></label>
                     <?php echo form_dropdown('gallery', $galleries, $post->gallery) ?>
                     [ <?php echo anchor('admin/galleries/create', lang('shop.new_gallery_label'), 'target="_blank"'); ?> ]
+                    <?php echo form_open_multipart(BASE_URL .'pages/ajax/upload/'); ?>
                 </li>
 
                 <li class="even">

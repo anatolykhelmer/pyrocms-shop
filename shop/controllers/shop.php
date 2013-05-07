@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * @author Anatoly Khelmer
+  * @Modified by Eko Muhammad Isa from Shopping cart Anatoly Khelmer
  */
 
 class Shop extends Public_Controller {
@@ -49,9 +49,13 @@ class Shop extends Public_Controller {
     public function index()
     {
         $cat = $this->shop_cat_m->get_all();
+        $last = $this->shop_items_m->get_lastest();
+        $data['shop_recent'] = $last;
         $data['shop_categories'] = $cat;
         $this->template
                         ->title($this->module_details['name'])
+                        ->append_metadata(css('shop-public.css', 'shop'))
+                        ->append_metadata(js('shop-public.js', 'shop'))
                         ->build('index', $data);
     }
 
@@ -77,17 +81,10 @@ class Shop extends Public_Controller {
         $thumbs = array();
 
         
-        foreach ($items->result() as $item) {
-            $gallery = $this->galleries_m->get_all_with_filename('g.id', $item->gallery);
-
-            $gallery = $gallery[0];
-
-            $thumbs[$item->id] = site_url() . 'files/thumb/' . $gallery->file_id;
-        }
-        $data['thumbs'] = $thumbs;
 
         $this->template
                         ->title($this->module_details['name'])
+                        ->append_metadata(css('shop-public.css', 'shop'))
                         ->build('view_category', $data);
     }
 
@@ -101,44 +98,35 @@ class Shop extends Public_Controller {
     {
         $item = $this->shop_items_m->get($id);
         $data['item'] = $item;
-
-        $item_options = $this->shop_items_m->get_options($id);
-
-        // If it has options
-        if ($item_options && $item_options->num_rows()) {
-            
-            $data['item_options'] = $item_options;
-
-            // For each option - option values
-            foreach ($item_options->result() as $item_option) {
-                
-                $option_values = $this->shop_items_m->get_option_values($item_option->id);
-
-                $values = array();
-                foreach ($option_values->result() as $option_value) {
-                    $values[$option_value->id] = $option_value->value;
-                }
-                // Options_values_array contain ( item_option_id => array (option_value_id => option_value_value))
-                $options_values_array[$item_option->id] = $values;
-            }
-            $data['options_values_array'] = $options_values_array;
+        $this->load->model('shop_img_m');
+        $img = $this->shop_img_m->read_img($id);
+        if($img == false){
+            $data['img'] = array();
+        }else{
+            $data['img'] = $img;
         }
-        else {
-            // No options - no need to print ;)
-            $data['item_options'] = $item_options;
-            $data['options_values_array'] = array();
+        
+        $this->load->model('shop_setting_m');
+        $data['payinfo_live'] = $this->shop_setting_m->get_setting('PAYINFO_LIVE');
+        if($data['payinfo_live'] == 1){
+            $data['payinfo_content'] = $this->shop_setting_m->get_setting('PAYINFO_CONTENT');
+        }else{
+            $data['payinfo_content'] = '';
+            $data['payinfo_live'] = 0;
         }
 
-
-        $gallery = $this->galleries_m->get_all_with_filename('g.id', $item->gallery);
-        $gallery = $gallery[0];
-        $gallery_images = $this->gallery_images_m->get_images_by_gallery($item->gallery);
-        $data['gallery'] = $gallery;
-        $data['item_images'] = $gallery_images;
+        //$gallery = $this->galleries_m->get_all_with_filename('galleries.id', $item->gallery);
+        //$gallery = $gallery[0];
+        //$gallery_images = $this->gallery_images_m->get_images_by_gallery($item->gallery);
+        //$data['gallery'] = $gallery;
+        //$data['item_images'] = $gallery_images;
 
         $this->template
                         ->title($this->module_details['name'])
-                        ->append_metadata(css('shop-style.css', 'shop'))
+                        ->append_metadata(js('shop-public.js', 'shop'))
+                        ->append_metadata(js('jquery/jquery.colorbox.min.js', 'shop'))
+                        ->append_metadata(css('shop-public.css', 'shop'))
+                        ->append_metadata(css('jquery/colorbox.css', 'shop'))
                         ->build('view_item', $data);
     }
 

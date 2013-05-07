@@ -34,8 +34,16 @@
         </thead>
         <tbody>
             <?php foreach ($items->result() as $item) {
-            echo '<tr><td><img src="' .$thumbs[$item->id]. '" >';
-            echo '</td><td><a href="/shop/view_item/' .$item->id. '">' .$item->name. '</a></td><td>' .$item->manufacturer. '</td><td>' .$item->price. ' &#8362;</td></tr>';
+                $thumb_basepath = FCPATH.UPLOAD_PATH."shop/thumb/".$item->image_name;
+                if(is_file($thumb_basepath)){
+                    $thumb_showpath = site_url(UPLOAD_PATH."shop/thumb/".$item->image_name);
+                    $height = '65%';
+                }else{
+                    $thumb_showpath = site_url(SHARED_ADDONPATH."modules/shop/img/no_image_small.jpg");
+                    $height = '40%';
+                }
+            echo '<tr class="tbl_rowcenter"><td><img src="' .$thumb_showpath. '" width="70%" height="'.$height.'" >';
+            echo '</td><td><a href="'.site_url("/shop/view_item/" .$item->id).'">' .$item->name. '</a></td><td>' .$item->manufacturer. '</td><td>' .$item->price. ' </td></tr>';
         }
         ?>
         </tbody>
